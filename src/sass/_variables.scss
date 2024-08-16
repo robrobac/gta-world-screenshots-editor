@@ -1,0 +1,11 @@
+#htmlElement[data-theme="dark"] {
+    --background: rgb(20, 20, 20);
+    --text: white;
+}
+#htmlElement[data-theme="light"] {
+    --background: white;
+    --text: rgb(20, 20, 20);
+}
+
+$background: var(--background);
+$text: var(--text);

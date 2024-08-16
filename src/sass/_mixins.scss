@@ -1,0 +1,4 @@
+@mixin sample-mixin($backgroundColor, $textColor) {
+    background-color: $backgroundColor;
+    color: $textColor;
+}
