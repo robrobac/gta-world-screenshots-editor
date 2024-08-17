@@ -11,3 +11,10 @@
 body {
     @include sample-mixin($background, $text)
 }
+
+.visibleImage {
+    display: none;
+}
+.active {
+    display: block !important;
+}
