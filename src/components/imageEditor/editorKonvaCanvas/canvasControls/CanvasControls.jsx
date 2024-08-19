@@ -5,7 +5,7 @@ import TextIcon from '../../../../assets/icons/TextIcon';
 import ImageIcon from '../../../../assets/icons/ImageIcon';
 import ZoomAndSizeSetting from '../../../zoomAndSizeSetting/ZoomAndSizeSetting';
 
-export default function CanvasControls() {
+export default function CanvasControls({handleExport}) {
   return (
     <div className='canvasControlsWrap'>
       <div className='controlGroup'>
@@ -18,6 +18,7 @@ export default function CanvasControls() {
       </div>
       <div className='controlGroup'>
         <ZoomAndSizeSetting />
+        <button onClick={handleExport}>Export Full Canvas</button>
       </div>
     </div>
   )

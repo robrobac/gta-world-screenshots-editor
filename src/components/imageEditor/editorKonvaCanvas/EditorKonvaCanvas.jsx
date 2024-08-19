@@ -2,11 +2,12 @@ import { Image as KonvaImage, Layer, Rect, Stage } from "react-konva";
 import './editorKonvaCanvas.scss';
 import CanvasControls from "./canvasControls/CanvasControls";
 import UploadedImageScale from "./uploadedImageScale/UploadedImageScale";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { ImageEditorContext } from "../ImageEditor";
 
 export default function EditorKonvaCanvas({image, id, activeId, canvasSize, canvasExportSize, uploadedImage}) {
     const { setUploadedImages } = useContext(ImageEditorContext);
+    const stageRef = useRef(null)
     console.log(uploadedImage)
 
     const handleDragMove = (e, id) => {
@@ -19,13 +20,39 @@ export default function EditorKonvaCanvas({image, id, activeId, canvasSize, canv
                 : image
             )
         )
-    }; 
+    };
+
+    const handleExport = () => {
+        const dataUrl = stageRef.current?.toDataURL({
+            x: canvasExportSize.x,
+            y: canvasExportSize.y,
+            width: canvasExportSize.width,
+            height: canvasExportSize.height,
+            pixelRatio: 1,
+        });
+        downloadUrl(dataUrl, "screenshot.png");
+    };
+
+    const downloadUrl = (url, name) => {
+        const link = document.createElement("a");
+        link.download = name;
+        link.href = url || "";
+        document.body.appendChild(link);
+        link.click();
+        console.log(url)
+        document.body.removeChild(link);
+    };
 
     return (
         <div className={`konvaCanvasWrap ${activeId === id ? 'konvaCanvasActive' : ''}`}>
-            <CanvasControls />
+            <CanvasControls handleExport={handleExport}/>
             <UploadedImageScale imageScale={uploadedImage.imageScale} id={id}/>
-            <Stage width={canvasSize.width} height={canvasSize.height}  style={{maxWidth: "100%", backgroundColor: "white"}}>
+            <Stage
+                ref={stageRef}
+                width={canvasSize.width}
+                height={canvasSize.height}
+                style={{maxWidth: "100%", backgroundColor: "white"}}
+            >
                 <Layer>
                     {image && (
                         <KonvaImage
