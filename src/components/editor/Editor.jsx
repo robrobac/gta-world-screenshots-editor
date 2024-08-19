@@ -28,10 +28,14 @@ export default function Editor() {
     });
 
     useEffect(() => {
+        const contentSection = document.querySelector('.editorContentWrap');
+        const SidebarSection = document.querySelector('.editorSidebarWrap');
+        const header = document.querySelector('.headerMain')
+        const footer = document.querySelector('.footerMain')
+        console.log(contentSection.offsetWidth, contentSection.offsetHeight)
         setCanvasSize({
             width: window.innerWidth,
             height: canvasSize.height
-            
         })
     }, [])
 
@@ -49,7 +53,6 @@ export default function Editor() {
     return (
         <div>
             <h1>Editor</h1>
-            <TextEditor />
             {backgroundImages.map((backgroundImage) => (
                 <CanvasEditor key={backgroundImage.id} id={backgroundImage.id} image={backgroundImage.image} activeId={activeBackgroundImage} canvasSize={canvasSize} canvasExportSize={canvasExportSize}/>
             ))}

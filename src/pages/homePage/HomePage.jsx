@@ -1,12 +1,18 @@
 import Editor from '../../components/editor/Editor';
+import Footer from '../../components/footer/Footer';
+import Header from '../../components/Header/header';
+import ImageEditor from '../../components/imageEditor/ImageEditor';
 import './homePage.scss';
 
 export default function HomePage() {
 
 
     return (
-        <main className='homePageMain'>
-            <Editor />
-        </main>
+        <>
+        <Header />
+        <ImageEditor />
+        <Footer />
+        </>
+        
     )
 }

@@ -1,0 +1,43 @@
+@use '../../sass/' as *;
+
+.zoomAndSizeWrap {
+    display: flex;
+    align-items: center;
+
+    font-size: 14px;
+    gap: 8px;
+
+    background-color: white;
+    color: #9C9C9C;
+
+    border-radius: 100px;
+    padding: 5px 15px;
+
+    div:first-child, div:last-child {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .sizeSetting {
+        svg {
+            fill: #9C9C9C;
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    .zoomSetting {
+        svg {
+            fill: #555555;
+        }
+    }
+
+    
+}
+
+.zoomAndSizeDivider {
+    width: 1px;
+    height: 100%;
+    background-color: #e8eaed;
+}

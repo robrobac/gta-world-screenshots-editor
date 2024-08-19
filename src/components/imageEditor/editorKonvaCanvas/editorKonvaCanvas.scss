@@ -1,0 +1,9 @@
+@use '../../../sass/' as *;
+
+.konvaCanvasWrap {
+    display: none;
+}
+.konvaCanvasActive {
+    display: block !important;
+    position: relative;
+}

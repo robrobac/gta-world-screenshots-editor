@@ -1,0 +1,11 @@
+@use '../../../sass/' as *;
+
+.editorSidebarWrap {
+    background-color: white;
+    width: 200px;
+    min-width: 124px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

@@ -1,0 +1,9 @@
+@use '../../../sass/' as *;
+
+.editorContentWrap {
+    background-color: green;
+    flex: 1;
+    min-width: 900px;
+
+    overflow: auto;
+}

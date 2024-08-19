@@ -1,0 +1,13 @@
+@use '../../../../sass/' as *;
+
+.uploadedImageScaleWrap {
+    position: absolute;
+    z-index: 90;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    #uploadedImageScale {
+        width: 100%;
+    }
+}

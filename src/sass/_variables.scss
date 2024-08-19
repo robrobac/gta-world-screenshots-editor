@@ -1,6 +1,9 @@
 #htmlElement[data-theme="dark"] {
     --background: rgb(20, 20, 20);
     --text: white;
+
+    --accent: #FFAC00;
+    --textOnAccent: #2C2C2C;
 }
 #htmlElement[data-theme="light"] {
     --background: white;
@@ -9,3 +12,10 @@
 
 $background: var(--background);
 $text: var(--text);
+$accent: var(--accent);
+
+$headerHeight: 25px;
+$footerHeight: 25px;
+$mainHeight: calc(100vh - $headerHeight - $footerHeight);
+$textOnAccent: var(--textOnAccent);
+
