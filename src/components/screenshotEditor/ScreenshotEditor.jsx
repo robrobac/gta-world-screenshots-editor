@@ -73,7 +73,6 @@ export default function ScreenshotEditor() {
             const image = new Image();
             image.src = imageUrl;
             setImage(image);
-            console.log(image)
         }
     };
 
@@ -100,7 +99,6 @@ export default function ScreenshotEditor() {
     const handleDragMove = (e) => {
         
         const { x, y } = e.target.position();
-        console.log(x, y)
         setImagePosition({ x, y });
     };
 

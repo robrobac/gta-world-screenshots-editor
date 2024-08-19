@@ -13,7 +13,6 @@ export default function Editor() {
             setActiveBackgroundImage(backgroundImages[0].id)
         }
     }, [backgroundImages])
-    console.log("Background Images:", backgroundImages)
 
     const [canvasSize, setCanvasSize] = useState({
         width: 1200,
@@ -32,7 +31,6 @@ export default function Editor() {
         const SidebarSection = document.querySelector('.editorSidebarWrap');
         const header = document.querySelector('.headerMain')
         const footer = document.querySelector('.footerMain')
-        console.log(contentSection.offsetWidth, contentSection.offsetHeight)
         setCanvasSize({
             width: window.innerWidth,
             height: canvasSize.height

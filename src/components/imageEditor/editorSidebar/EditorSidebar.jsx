@@ -10,9 +10,7 @@ export default function EditorSidebar() {
   return (
     <aside className='editorSidebarWrap'>
         <EditorUpload />
-        <div className="sidebarDivider">a</div>
         <EditorUploaded />
-        <div className="sidebarDivider">a</div>
         <ButtonAccent title="Download All" fullWidth={true}>
           <DownloadIcon />
         </ButtonAccent>

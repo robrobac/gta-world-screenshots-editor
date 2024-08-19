@@ -2,63 +2,67 @@ import { createContext, useEffect, useState } from 'react';
 import EditorContent from './editorContent/EditorContent';
 import EditorSidebar from './editorSidebar/EditorSidebar';
 import './imageEditor.scss';
-import { useWindowSize } from '../../hooks/useWindowSize';
+import { v4 as uuid } from 'uuid';
 
 export const ImageEditorContext = createContext();
 
 export default function ImageEditor() {
-    const {windowWidth, windowHeight} = useWindowSize();
-    const [uploadedImages, setUploadedImages] = useState([]);
-    const [activeUploadedImage, setActiveUploadedImage] = useState('')
-    console.log(uploadedImages)
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [activeFileId, setActiveFileId] = useState("")
+    console.log("uploadedFiles", uploadedFiles)
 
-    
-    const [canvasSize, setCanvasSize] = useState({
-        width: 1200,
-        height: 700
-    });
-    const [canvasExportSize, setCanvasExportSize] = useState({
-        width: 900,
-        height: 450,
-        x: (canvasSize.width - 900) / 2,
-        y: (canvasSize.height - 450) / 2,
-    });
-    useEffect(() => {
-        const contentSection = document.querySelector('.editorContentWrap');
-        setCanvasSize({
-            width: contentSection.offsetWidth,
-            height: contentSection.offsetHeight
-        })
-    }, [windowWidth, windowHeight])
-
-    useEffect(() => {
-        const { width, height } = canvasExportSize;
-        setCanvasExportSize({
-            width: width,
-            height: height,
-            x: (canvasSize.width - width) / 2,
-            y: (canvasSize.height - height) / 2,
-        });
-    }, [canvasSize]);
-
-    useEffect(() => {
-        if (activeUploadedImage == "" && uploadedImages.length > 0) {
-            setActiveUploadedImage(uploadedImages[0].id)
+    // FILES UPLOAD FUNCTION
+    const handleUploadFiles = (e) => {
+        if (e.target.files.length > 0) {
+            console.log("e.target.files", e.target.files)
+            Array.from(e.target.files).forEach((file) => {
+                const fileObj = {
+                    id: uuid(),
+                    imageUrl: URL.createObjectURL(file), // Saving this to use in the list of uploaded files.
+                    file // Will use for creating a new image state for each uploaded file, prepared for canvas
+                }
+                setUploadedFiles(prev => [...prev, fileObj]);
+            })
         }
-    }, [uploadedImages])
+    }
 
-    
+    // SELECTING FILE FUNCTION
+    const handleFileSelect = (id) => {
+        setActiveFileId(id);
+    }
 
+    // DELETING FILE FUNCTION
+    const handleFileDelete = (id) => {
+        const deleteIndex = uploadedFiles.findIndex((file) => file.id === id);
+
+        if (uploadedFiles.length === 1) {
+            setActiveFileId('');
+        } else if (deleteIndex == 0 && activeFileId === id) {
+            setActiveFileId(uploadedFiles[1].id);
+            
+        } else if (activeFileId === id) {
+            setActiveFileId(uploadedFiles[deleteIndex - 1].id);
+            
+        }
+        const filteredArray = uploadedFiles.filter((file) => file.id !== id);
+        setUploadedFiles([...filteredArray]);
+    }
+
+    // SELECTING THE FIRST UPLOADED FILE IF THERE WAS NO FILES BEFORE
+    useEffect(() => {
+        if (activeFileId == "" && uploadedFiles.length > 0) {
+            setActiveFileId(uploadedFiles[0].id)
+        }
+    }, [uploadedFiles])
 
     return (
         <ImageEditorContext.Provider
             value={{
-                uploadedImages,
-                setUploadedImages,
-                activeUploadedImage,
-                setActiveUploadedImage,
-                canvasSize,
-                canvasExportSize,
+                handleUploadFiles,
+                uploadedFiles,
+                handleFileSelect,
+                activeFileId,
+                handleFileDelete,
             }}
         >
             <main className='imageEditorWrap'>

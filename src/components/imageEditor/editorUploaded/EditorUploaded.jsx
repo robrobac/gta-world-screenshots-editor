@@ -3,43 +3,23 @@ import { ImageEditorContext } from '../ImageEditor';
 import './editorUploaded.scss'
 
 export default function EditorUploaded() {
-    const { uploadedImages, setUploadedImages, activeUploadedImage, setActiveUploadedImage } = useContext(ImageEditorContext);
+    const { uploadedFiles, handleFileSelect, activeFileId, handleFileDelete } = useContext(ImageEditorContext);
 
-    const handleBackgroundImageDelete = (id) => {
-        const deletingImageIndex = uploadedImages.findIndex((uploadedImage) => uploadedImage.id === id);
-
-        if (uploadedImages.length === 1) {
-            setActiveUploadedImage('');
-        } else if (deletingImageIndex == 0 && activeUploadedImage === id) {
-            setActiveUploadedImage(uploadedImages[1].id);
-            
-        } else if (activeUploadedImage === id) {
-            setActiveUploadedImage(uploadedImages[deletingImageIndex - 1].id);
-            
-        }
-        const filteredArray = uploadedImages.filter((uploadedImage) => uploadedImage.id !== id);
-        setUploadedImages([...filteredArray]);
-    }
-
-    const handleBackgroundImageSelect = (id) => {
-        setActiveUploadedImage(id);
-    }
-
-  return (
-    <div className='editorUploadedSection'>
-        {uploadedImages.map((backgroundImage) => (
-            <div key={backgroundImage.id} className='uploadedThumbnail'>
-                <img
-                    className={`thumbnailImage ${backgroundImage.id === activeUploadedImage && "activeThumbnail"}`}
-                    src={backgroundImage.image.src}
-                    height={100}
-                    onClick={() =>handleBackgroundImageSelect(backgroundImage.id)}
-                />
-                <div className="thumbnailButtons">
-                    <button onClick={() =>handleBackgroundImageDelete(backgroundImage.id)}>Delete</button>
+    return (
+        <div className='editorUploadedSection'>
+            {uploadedFiles?.map((file) => (
+                <div key={file.id} className='uploadedThumbnail'>
+                    <img
+                        className={`thumbnailImage ${file.id === activeFileId && "activeThumbnail"}`}
+                        src={file.imageUrl}
+                        height={100}
+                        onClick={() => handleFileSelect(file.id)}
+                    />
+                    <div className="thumbnailButtons">
+                        <button onClick={() => handleFileDelete(file.id)}>Delete</button>
+                    </div>
                 </div>
-            </div>
-        ))}
-    </div>
-  )
+            ))}
+        </div>
+    )
 }

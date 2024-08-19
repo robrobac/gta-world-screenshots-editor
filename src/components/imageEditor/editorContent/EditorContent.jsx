@@ -4,20 +4,16 @@ import './editorContent.scss';
 import EditorKonvaCanvas from '../editorKonvaCanvas/EditorKonvaCanvas';
 
 export default function EditorContent() {
-  const { uploadedImages, activeUploadedImage, canvasSize, canvasExportSize } = useContext(ImageEditorContext);
+  const { uploadedFiles } = useContext(ImageEditorContext);
+  
   return (
     <section className='editorContentWrap'>
-        {uploadedImages.map((image) => (
-          <EditorKonvaCanvas
-            key={image.id}
-            id={image.id}
-            uploadedImage={image}
-            image={image.image}
-            activeId={activeUploadedImage}
-            canvasSize={canvasSize}
-            canvasExportSize={canvasExportSize}
-          />
-        ))}
-    </section>
+      {uploadedFiles.map((file) => (
+        <EditorKonvaCanvas
+          key={file.id}
+          file={file}
+        />
+      ))}
+  </section>
   )
 }

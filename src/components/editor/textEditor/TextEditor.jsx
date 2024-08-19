@@ -27,9 +27,6 @@ export default function TextEditor({id}) {
         }
     }, [debouncedValue, id]);
 
-    console.log("html:", value)
-    console.log("canvasText:", canvasText)
-
     const modules = {
         toolbar: [
           [{ 'size': ['14px', '16px', '18px'] }],
