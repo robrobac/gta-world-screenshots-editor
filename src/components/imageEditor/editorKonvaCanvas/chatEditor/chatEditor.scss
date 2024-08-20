@@ -1,0 +1,81 @@
+@use '../../../../sass/' as *;
+
+.chatEditorWrap {
+    position: absolute;
+    z-index: 150;
+    background-color: white;
+    width: 650px;
+
+    .chatEditorControls {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        display: flex;
+        gap: 6px;
+
+        .dragControl {
+            height: 42px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 2px;
+            background-color: red;
+        }
+    }
+
+    .quill {
+        .ql-size-small, .ql-size-large, p{
+            font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+            font-weight: 400 !important;
+            letter-spacing: 0.3px;
+        }
+        p {
+            width: fit-content;
+            text-shadow: 
+            rgb(0, 0, 0) 1.5px 0px 0px, 
+            rgb(0, 0, 0) 0.810453px 1.262207px 0px, 
+            rgb(0, 0, 0) -0.624220px 1.363946px 0px, 
+            rgb(0, 0, 0) -1.484988px 0.211680px 0px, 
+            rgb(0, 0, 0) -0.980467px -1.135203px 0px, 
+            rgb(0, 0, 0) 0.425493px -1.438386px 0px, 
+            rgb(0, 0, 0) 1.440255px -0.419122px 0px,
+            rgb(0, 0, 0) 0px 0px 4px;
+    
+    
+        }
+    
+    }
+    
+    .ql-editor {
+        p {
+            line-height: unset;
+        }
+
+        p:has(span.ql-size-small) {
+            font-size: 14px !important;
+            line-height: 18px !important;
+        }
+        p:not(:empty) {
+            font-size: 16px !important;
+            line-height: 20px !important;
+        }
+        p:has(span.ql-size-large) {
+            font-size: 18px !important;
+            line-height: 22px !important;
+        }
+
+        p {
+            span.ql-size-small {
+                font-size: inherit;
+                line-height: inherit;
+            }
+
+            span.ql-size-large {
+                font-size: inherit;
+                line-height: inherit;
+            }
+        }
+        
+    }
+}

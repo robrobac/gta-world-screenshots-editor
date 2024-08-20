@@ -2,9 +2,13 @@ import { Image as KonvaImage, Layer, Rect, Stage } from "react-konva";
 import './editorKonvaCanvas.scss';
 import CanvasControls from "./canvasControls/CanvasControls";
 import UploadedImageScale from "./uploadedImageScale/UploadedImageScale";
-import { useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { ImageEditorContext } from "../ImageEditor";
 import { useWindowSize } from "../../../hooks/useWindowSize";
+import ChatEditor from "./chatEditor/ChatEditor";
+
+export const KonvaCanvasContext = createContext();
+
 
 export default function EditorKonvaCanvas({file}) {
     const { activeFileId } = useContext(ImageEditorContext);
@@ -15,8 +19,15 @@ export default function EditorKonvaCanvas({file}) {
     const [image, setImage] = useState(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
     const [imageScale, setImageScale] = useState(1.00);
-
     console.log(image)
+
+    const [chats, setChats] = useState([])
+    console.log("chats",chats)
+
+    const [texts, setTexts] = useState([]);
+    console.log("texts",texts)
+
+    
 
     useEffect(() => {
         const imageUrl = URL.createObjectURL(file.file)
@@ -66,9 +77,34 @@ export default function EditorKonvaCanvas({file}) {
     }, [canvasSize]);
 
     // UPDATING IMAGE POSITION WHEN DRAGGING ACROSS THE CANVAS
-    const handleDragMove = (e) => {
+    const handleDragMoveImage = (e) => {
         const { x, y } = e.target.position();
         setImagePosition({ x, y });
+    };
+    const handleDragMoveChat = (e, id) => {
+        const { x, y } = e.target.position();
+
+        setChats(prevChats => prevChats.map(chat => 
+            chat.id === id ? { ...chat, position: { x, y }, size: {width: e.target.width(), height: e.target.height()} } : chat
+        ))
+    };
+    // Function to constrain the drag within boundary
+    const getDragBoundFunc = (chatSize) => {
+        return (pos) => {
+            const { x, y } = pos;
+            const { x: exportX, y: exportY, width, height } = canvasExportSize;
+            
+            // Calculate boundaries taking into account the size of the element
+            const leftBoundary = exportX;
+            const rightBoundary = exportX + width - chatSize.width;
+            const topBoundary = exportY;
+            const bottomBoundary = exportY + height - chatSize.height;
+            
+            return {
+                x: Math.max(leftBoundary, Math.min(rightBoundary, x)),
+                y: Math.max(topBoundary, Math.min(bottomBoundary, y)),
+            };
+        };
     };
 
     // EXPORTING THE IMAGE
@@ -97,7 +133,10 @@ export default function EditorKonvaCanvas({file}) {
 
     return (
         <div className={`konvaCanvasWrap ${activeFileId === image?.id ? 'konvaCanvasActive' : ''}`}>
-            <CanvasControls handleExport={handleExport}/>
+            {chats.map((chat) => (
+                <ChatEditor key={chat.id} id={chat.id} setChats={setChats} canvasExportSize={canvasExportSize}/>
+            ))}
+            <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize}/>
             <UploadedImageScale
                 image={image?.image}
                 imageScale={imageScale}
@@ -111,7 +150,7 @@ export default function EditorKonvaCanvas({file}) {
                 height={canvasSize.height}
                 style={{maxWidth: "100%", backgroundColor: "white"}}
             >
-                <Layer imageSmoothingEnabled={false}>
+                <Layer>
                     {image && (
                         <KonvaImage
                             image={image.image}
@@ -120,9 +159,23 @@ export default function EditorKonvaCanvas({file}) {
                             x={imagePosition.x}
                             y={imagePosition.y}
                             draggable
-                            onDragMove={handleDragMove}
+                            onDragMove={handleDragMoveImage}
                         />
                     )}
+                </Layer>
+                <Layer>
+                    {chats?.map((chat) => (
+                        <KonvaImage 
+                            key={chat.id}
+                            image={chat.chatCanvas}
+                            x={chat.position.x}
+                            y={chat.position.y}
+                            draggable
+                            dragBoundFunc={getDragBoundFunc(chat.size)}
+                            onDragMove={(e) => handleDragMoveChat(e, chat.id)}
+
+                        />
+                    ))}
                 </Layer>
                 <Layer>
                     <Rect opacity={0.5} listening={false} fill="gray" x={0} y={0} width={canvasExportSize.x} height={canvasSize.height} />
