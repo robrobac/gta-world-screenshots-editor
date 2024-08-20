@@ -48,42 +48,39 @@ export default function ChatEditor({id, setChats, canvasExportSize}) {
             setChats((prev) => {
                 // CHECKING THE EXISTING OBJECT ID
                 const existingIndex = prev.findIndex(chat => chat.id === id);
-
-                console.log(canvasValue.width)
     
                 const newTextObj = {
                     id: id,
                     chatValue: value,
                     chatCanvas: canvasValue,
-                    
-                    position: {
-                        x: canvasExportSize.x,
-                        y: canvasExportSize.y
-                    },
                     size: {
                         width: canvasValue.width,
                         height: canvasValue.height
-                    }  
+                    }
                 };
     
-                // IF FOUND, UPDATE THE EXISTING OBJECT
-                if (existingIndex !== -1) {
-                    const updatedTexts = [...prev];
-                    updatedTexts[existingIndex] = {
-                        ...updatedTexts[existingIndex],
-                        ...newTextObj
+                // IF NOT FOUND, ADD THE NEW OBJECT WITH POSITION
+                if (existingIndex === -1) {
+                    newTextObj.position = {
+                        x: canvasExportSize.x,
+                        y: canvasExportSize.y
                     };
-                    return updatedTexts;
+                    return [...prev, newTextObj];
                 }
     
-                // IF NOT FOUND, ADD THE NEW OBJECT
-                return [...prev, newTextObj];
+                // IF FOUND, UPDATE THE EXISTING OBJECT WITHOUT POSITION
+                const updatedTexts = [...prev];
+                updatedTexts[existingIndex] = {
+                    ...updatedTexts[existingIndex],
+                    ...newTextObj
+                };
+                return updatedTexts;
             });
         }
     }, [canvasValue]);
 
     return (
-        <Draggable handle=".handle" defaultPosition={{ x: 0, y: 0 }} bounds="parent">
+        <Draggable handle=".handle" defaultPosition={{ x: 0, y: 50 }} bounds="parent">
             <div className='chatEditorWrap'>
                 <ReactQuill modules={modules} formats={formats} className={`quill-${id}`} theme="snow" value={value} onChange={setValue} />
                 <div className="chatEditorControls">

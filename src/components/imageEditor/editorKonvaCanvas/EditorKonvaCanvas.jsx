@@ -19,16 +19,11 @@ export default function EditorKonvaCanvas({file}) {
     const [image, setImage] = useState(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
     const [imageScale, setImageScale] = useState(1.00);
-    console.log(image)
 
     const [chats, setChats] = useState([])
-    console.log("chats",chats)
+    const [selectedChatId, setSelectedChatId] = useState("")
 
-    const [texts, setTexts] = useState([]);
-    console.log("texts",texts)
-
-    
-
+    // CREATING IMAGE IN THE CANVAS FROM THE GIVEN FILE
     useEffect(() => {
         const imageUrl = URL.createObjectURL(file.file)
         const image = new Image()
@@ -66,14 +61,45 @@ export default function EditorKonvaCanvas({file}) {
     }, [windowWidth, windowHeight])
 
     // Calculating the export area size and the position depending on the visible canvas size
+    // Also if there's chats, calculate new chat position on canvasSize change
     useEffect(() => {
         const { width, height } = canvasExportSize;
+
+        const prevCanvasExportX = canvasExportSize.x
+        const prevCanvasExportY = canvasExportSize.y
+
+        const newCanvasExportX = (canvasSize.width - width) / 2
+        const newCanvasExportY = (canvasSize.height - height) / 2
+
         setCanvasExportSize({
             width: width,
             height: height,
-            x: (canvasSize.width - width) / 2,
-            y: (canvasSize.height - height) / 2,
+            x: newCanvasExportX,
+            y: newCanvasExportY,
         });
+
+        if (chats.length > 0) {
+            setChats(prevChats => prevChats.map((chat) => {
+                const prevChatX = chat.position.x
+                const prevChatY = chat.position.y
+
+                const offsetX = prevChatX - prevCanvasExportX
+                const offsetY = prevChatY - prevCanvasExportY
+    
+                const newPosition = {
+                    x: newCanvasExportX + offsetX,
+                    y: newCanvasExportY + offsetY,
+                }
+    
+                return {
+                    ...chat,
+                    position: newPosition
+                }
+            }))
+        }
+
+        const contentSection = document.querySelector('.editorContentWrap');
+        contentSection.style = `min-width: ${width + 50}px; min-height: ${height + 50}px;`;
     }, [canvasSize]);
 
     // UPDATING IMAGE POSITION WHEN DRAGGING ACROSS THE CANVAS
@@ -131,6 +157,11 @@ export default function EditorKonvaCanvas({file}) {
         document.body.removeChild(link);
     };
 
+    // HANDLING CHAT SELECTION
+    const handleSelectChat = (id) => {
+        setSelectedChatId(id);
+    }
+
     return (
         <div className={`konvaCanvasWrap ${activeFileId === image?.id ? 'konvaCanvasActive' : ''}`}>
             {chats.map((chat) => (
@@ -170,10 +201,10 @@ export default function EditorKonvaCanvas({file}) {
                             image={chat.chatCanvas}
                             x={chat.position.x}
                             y={chat.position.y}
-                            draggable
+                            draggable={selectedChatId === chat.id}
                             dragBoundFunc={getDragBoundFunc(chat.size)}
                             onDragMove={(e) => handleDragMoveChat(e, chat.id)}
-
+                            onClick={() => handleSelectChat(chat.id)}
                         />
                     ))}
                 </Layer>
