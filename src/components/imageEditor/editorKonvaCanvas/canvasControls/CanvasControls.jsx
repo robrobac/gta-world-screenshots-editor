@@ -3,7 +3,6 @@ import './canvasControls.scss'
 import TextIcon from '../../../../assets/icons/TextIcon';
 import ImageIcon from '../../../../assets/icons/ImageIcon';
 import ZoomAndSizeSetting from '../../../zoomAndSizeSetting/ZoomAndSizeSetting';
-import AddText from '../addText/AddText';
 import { v4 as uuid } from 'uuid';
 
 export default function CanvasControls({handleExport, setChats, canvasExportSize}) {
