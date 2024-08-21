@@ -27,6 +27,8 @@ export default function EditorKonvaCanvas({file}) {
     const [chats, setChats] = useState([])
     const [selectedChatId, setSelectedChatId] = useState("")
 
+    const contentSection = document.querySelector('.editorContentWrap');
+
     // CREATING IMAGE IN THE CANVAS FROM THE GIVEN FILE
     useEffect(() => {
         const imageUrl = URL.createObjectURL(file.file)
@@ -102,8 +104,8 @@ export default function EditorKonvaCanvas({file}) {
             }))
         }
 
-        const contentSection = document.querySelector('.editorContentWrap');
-        contentSection.style = `min-width: ${width + 50}px; min-height: ${height + 50}px;`;
+        // const contentSection = document.querySelector('.editorContentWrap');
+        // contentSection.style = `min-width: ${width + 50}px; min-height: ${height + 50}px;`;
     }, [canvasSize]);
 
     // UPDATING IMAGE POSITION WHEN DRAGGING ACROSS THE CANVAS
@@ -190,7 +192,7 @@ export default function EditorKonvaCanvas({file}) {
             {chats.map((chat) => (
                 <ChatEditor key={chat.id} id={chat.id} setChats={setChats} canvasExportSize={canvasExportSize} canvasSize={canvasSize} selectedChatId={selectedChatId} setSelectedChatId={setSelectedChatId}/>
             ))}
-            <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize} id={file.id} setSelectedChatId={setSelectedChatId}/>
+            <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize} setCanvasExportSize={setCanvasExportSize} canvasSize={canvasSize} setCanvasSize={setCanvasSize} id={file.id} setSelectedChatId={setSelectedChatId}/>
             <UploadedImageScale
                 image={image?.image}
                 imageScale={imageScale}

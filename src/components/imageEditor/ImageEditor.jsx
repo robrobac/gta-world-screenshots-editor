@@ -10,6 +10,7 @@ export default function ImageEditor() {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [activeFileId, setActiveFileId] = useState("")
     console.log("uploadedFiles", uploadedFiles)
+    console.log("activeFileId", activeFileId)
 
     // FILES UPLOAD FUNCTION
     const handleUploadFiles = (e) => {

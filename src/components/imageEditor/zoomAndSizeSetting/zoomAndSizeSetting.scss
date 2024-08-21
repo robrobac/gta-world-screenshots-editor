@@ -13,32 +13,30 @@
     border-radius: 100px;
     padding: 5px 15px;
 
-    div:first-child, div:last-child {
-        display: flex;
-        align-items: center;
-        gap: 4px;
+    input {
+        background-color: unset;
+        border: unset;
+        color: $onSurface;
+        width: 50px;
+
+        &:first-child {
+            text-align: right;
+        }
+
+        &:last-child {
+            text-align: left;
+        }
     }
 
-    .sizeSetting {
+    .sizeSettingForm {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
         svg {
             fill: $onSurfaceDark;
             width: 16px;
             height: 16px;
         }
     }
-
-    .zoomSetting {
-        color: $onSurfaceDark;
-        svg {
-            fill: $onSurface;
-        }
-    }
-
-    
-}
-
-.zoomAndSizeDivider {
-    width: 1px;
-    height: 60%;
-    background-color: $onSurfaceDisabled;
 }
