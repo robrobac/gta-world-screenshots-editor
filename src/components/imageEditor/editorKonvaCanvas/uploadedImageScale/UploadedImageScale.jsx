@@ -57,6 +57,7 @@ export default function UploadedImageScale({image, imageScale, setImageScale, im
                 onWheel={(e) => handleScaleScroll(e)}
             />
             {/* <span>{imageScale.toFixed(2)}</span> */}
+
         </div>
     )
 }

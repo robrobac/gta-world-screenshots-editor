@@ -10,22 +10,36 @@
     max-height: 100%;
 
     padding: $inSectionPadding;
+    
 
     .uploadedThumbnail {
         position: relative;
+        padding: 5px;
+
+        border: 2px dashed $surface;
+        border-radius: $borderRadiusM;
+
+        cursor: pointer;
+
+        &:has(.activeThumbnail) {
+            border: 2px dashed $accent;
+        }
+
+        @include hover {
+            border: 2px dashed $accentDarker;
+            &:has(.activeThumbnail) {
+                border: 2px dashed $accent;
+            }
+        }
 
         .thumbnailImage {
+            display: block;
             width: 100%;
             height: auto;
-
-            border: 1px solid black;
-            border-radius: 5px;
-
+            
+            border-radius: $borderRadiusS;
         }
 
-        .activeThumbnail {
-            border: 3px solid rgb(255, 0, 0);
-        }
     }
 
     .thumbnailButtons {

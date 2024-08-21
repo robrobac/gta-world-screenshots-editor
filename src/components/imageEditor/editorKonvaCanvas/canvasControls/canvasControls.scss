@@ -9,6 +9,7 @@
 
     display: flex;
     justify-content: space-between;
+    gap: 16px;
 
     padding: $inSectionPadding;
 
@@ -18,6 +19,22 @@
         gap: 8px;
         height: fit-content;
         width: fit-content;
+        flex-wrap: wrap;
         z-index: 100;
+        pointer-events: none;
+
+        &:first-child {
+            justify-content: flex-start;
+            flex: 1;
+        }
+
+        &:last-child {
+            justify-content: flex-end;
+            flex: 1;
+        }
+
+        button, div {
+            pointer-events: auto;
+        }
     }
 }

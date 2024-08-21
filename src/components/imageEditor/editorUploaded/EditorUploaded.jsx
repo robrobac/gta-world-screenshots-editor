@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { ImageEditorContext } from '../ImageEditor';
 import './editorUploaded.scss'
+import ButtonAccent from '../../buttonAccent/ButtonAccent';
+import DeleteIcon from '../../../assets/icons/DeleteIcon';
 
 export default function EditorUploaded() {
     const { uploadedFiles, handleFileSelect, activeFileId, handleFileDelete } = useContext(ImageEditorContext);
@@ -16,7 +18,9 @@ export default function EditorUploaded() {
                         onClick={() => handleFileSelect(file.id)}
                     />
                     <div className="thumbnailButtons">
-                        <button onClick={() => handleFileDelete(file.id)}>Delete</button>
+                        <ButtonAccent outlined={true} variant="thumbnailControl" iconOnly={true} onClick={() => handleFileDelete(file.id)}>
+                            <DeleteIcon />
+                        </ButtonAccent>
                     </div>
                 </div>
             ))}

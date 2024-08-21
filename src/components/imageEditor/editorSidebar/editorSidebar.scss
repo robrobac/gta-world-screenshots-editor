@@ -1,16 +1,14 @@
 @use '../../../sass/' as *;
 
 .editorSidebarWrap {
-    background-color: white;
+    background-color: $surface;
     width: 200px;
-    min-width: 124px;
+    min-width: 200px;
 
     display: flex;
     flex-direction: column;
-
-    padding-right: 0px;
-
-    border-radius: 20px;
+    
+    border-radius: $borderRadiusL;
 
     ::-webkit-scrollbar {
         height: 6px;
@@ -18,13 +16,13 @@
     }
     ::-webkit-scrollbar-track {
         border-radius: 20px;
-        background-color: $accentLighter;
+        background-color: $accentDarker;
     }
     ::-webkit-scrollbar-track:hover {
-        background-color: $accentLighter;
+        background-color: $accentDarker;
     }
     ::-webkit-scrollbar-track:active {
-        background-color: $accentLighter;
+        background-color: $accentDarker;
     }
     ::-webkit-scrollbar-thumb {
         border-radius: 20px;
@@ -32,10 +30,10 @@
         cursor: s-resize;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background-color: $accentDarker;
+        background-color: $accentHover;
     }
     ::-webkit-scrollbar-thumb:active {
-        background-color: $accentDarker;
+        background-color: $accentHover;
     }
       
 }

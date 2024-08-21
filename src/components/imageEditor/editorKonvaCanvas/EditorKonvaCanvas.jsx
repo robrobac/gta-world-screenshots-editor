@@ -6,8 +6,11 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { ImageEditorContext } from "../ImageEditor";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import ChatEditor from "./chatEditor/ChatEditor";
+import { accent, background, onSurfaceDark, surface } from "../../../sass/_variables";
 
 export const KonvaCanvasContext = createContext();
+
+console.log(background)
 
 
 export default function EditorKonvaCanvas({file}) {
@@ -187,7 +190,7 @@ export default function EditorKonvaCanvas({file}) {
             {chats.map((chat) => (
                 <ChatEditor key={chat.id} id={chat.id} setChats={setChats} canvasExportSize={canvasExportSize} canvasSize={canvasSize} selectedChatId={selectedChatId} setSelectedChatId={setSelectedChatId}/>
             ))}
-            <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize}/>
+            <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize} id={file.id} setSelectedChatId={setSelectedChatId}/>
             <UploadedImageScale
                 image={image?.image}
                 imageScale={imageScale}
@@ -199,8 +202,11 @@ export default function EditorKonvaCanvas({file}) {
                 ref={stageRef}
                 width={canvasSize.width}
                 height={canvasSize.height}
-                style={{maxWidth: "100%", backgroundColor: "white"}}
+                style={{maxWidth: "100%", backgroundColor: surface}}
             >
+                <Layer>
+                    <Rect opacity={1} listening={false} fill={onSurfaceDark} x={canvasExportSize.x} y={canvasExportSize.y} width={canvasExportSize.width} height={canvasExportSize.height} />
+                </Layer>
                 <Layer>
                     {image && (
                         <KonvaImage
@@ -229,15 +235,15 @@ export default function EditorKonvaCanvas({file}) {
                         />
                     ))}
                     {selectedChatId && (
-                        <Transformer borderStroke="red" borderStrokeWidth={2} rotateEnabled={false} resizeEnabled={false} ref={transformerRef} />
+                        <Transformer borderDash={[4, 4]} borderStroke={accent} borderStrokeWidth={3} rotateEnabled={false} resizeEnabled={false} ref={transformerRef} />
                     )}
                     
                 </Layer>
                 <Layer>
-                    <Rect opacity={0.5} listening={false} fill="gray" x={0} y={0} width={canvasExportSize.x} height={canvasSize.height} />
-                    <Rect opacity={0.5} listening={false} fill="gray" x={canvasSize.width - canvasExportSize.x} y={0} width={canvasExportSize.x} height={canvasSize.height} />
-                    <Rect opacity={0.5} listening={false} fill="gray" x={canvasExportSize.x} y={0} width={canvasExportSize.width} height={canvasExportSize.y} />
-                    <Rect opacity={0.5} listening={false} fill="gray" x={canvasExportSize.x} y={canvasSize.height - canvasExportSize.y} width={canvasExportSize.width} height={canvasExportSize.y} />
+                    <Rect opacity={0.9} listening={false} fill={surface} x={0} y={0} width={canvasExportSize.x} height={canvasSize.height} />
+                    <Rect opacity={0.9} listening={false} fill={surface} x={canvasSize.width - canvasExportSize.x} y={0} width={canvasExportSize.x} height={canvasSize.height} />
+                    <Rect opacity={0.9} listening={false} fill={surface} x={canvasExportSize.x} y={0} width={canvasExportSize.width} height={canvasExportSize.y} />
+                    <Rect opacity={0.9} listening={false} fill={surface} x={canvasExportSize.x} y={canvasSize.height - canvasExportSize.y} width={canvasExportSize.width} height={canvasExportSize.y} />
                 </Layer>
             </Stage>
         </div>

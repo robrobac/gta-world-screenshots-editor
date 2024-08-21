@@ -26,7 +26,7 @@ export default function ChatEditor({id, setChats, canvasExportSize, selectedChat
     const [value, setValue] = useState("")
     const [canvasValue, setCanvasValue] = useState(null)
 
-    const debouncedValue = useDebounce(value, 1000); // Creating a canvas from the editor HTML
+    const debouncedValue = useDebounce(value, 200); // Creating a canvas from the editor HTML
 
     const handleDeleteChat = (id) => {
         setChats(prevChats => prevChats.filter(chat => chat.id !== id));

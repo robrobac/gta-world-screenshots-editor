@@ -1,7 +1,9 @@
 @use '../../../sass/' as *;
 
 .editorContentWrap {
-    background-color: green;
     flex: 1;
     overflow: auto;
+
+    
+    border-radius: $borderRadiusL;
 }

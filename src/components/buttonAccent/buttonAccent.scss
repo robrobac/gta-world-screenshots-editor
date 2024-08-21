@@ -13,10 +13,18 @@
     gap: 8px;
     
     padding: 10px;
-    border-radius: 5px;
+    border-radius: $borderRadiusS;
+
+    cursor: pointer;
 
     svg {
         fill: $textOnAccent;
+    }
+
+    @include hover {
+        &:not(.disabledButton, .outlined) {
+            background-color: $accentHover;
+        }
     }
 }
 
@@ -25,10 +33,58 @@
     padding: 5px 15px;
 }
 
+.buttonThumbnailControl.iconOnly {
+    padding: 2px 2px;
+    border: 1px solid $accent;
+    svg {
+        height: 16px;
+    }
+}
+
 .rounded {
     border-radius: 100px;
 }
 
 .fullWidth {
     width: 100%;
+}
+
+.outlined {
+    border: 2px solid $accent;
+    background-color: $surface;
+    color: $accent;
+
+    svg {
+        fill: $accent;
+    }
+
+    @include hover {
+        &:not(.disabledButton) {
+            border-color: $accentHover;
+            color: $accentHover;
+
+            svg {
+                fill: $accentHover;
+            }
+        }
+    }
+}
+
+.disabledButton {
+    background-color: $surface;
+    color: $onSurfaceDisabled;
+    border: 2px solid $onSurfaceDisabled;
+    cursor: unset;
+
+    svg {
+        fill: $onSurfaceDisabled;
+    }
+}
+
+.iconOnly {
+    padding: 5px;
+    border-radius: 100px;
+    height: fit-content;
+    width: auto;
+    aspect-ratio: 1/1;
 }

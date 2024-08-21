@@ -1,10 +1,17 @@
 #htmlElement[data-theme="dark"] {
-    --background: rgb(20, 20, 20);
+    --background: rgb(37, 37, 37);
+    --surface: rgb(18, 18, 18);
+    --surfaceTransparent: rgba(18, 18, 18, 1);
+
+    --onSurface: rgb(255, 255, 255);
+    --onSurfaceDark: rgb(104, 104, 104);
+    --onSurfaceDisabled: rgb(63, 63, 63);
+
     --text: white;
 
     --accent: #FFAC00;
-    --accentLighter: #ffd581;
-    --accentDarker: #d89000;
+    --accentHover: #ffd480;
+    --accentDarker: #774f00;
     --textOnAccent: #2C2C2C;
 }
 #htmlElement[data-theme="light"] {
@@ -13,13 +20,24 @@
 }
 
 $background: var(--background);
+$surface: var(--surface);
+$surfaceTransparent: var(--surfaceTransparent);
+
+$onSurface: var(--onSurface);
+$onSurfaceDark: var(--onSurfaceDark);
+$onSurfaceDisabled: var(--onSurfaceDisabled);
+
 $text: var(--text);
 
 $accent: var(--accent);
-$accentLighter: var(--accentLighter);
+$accentHover: var(--accentHover);
 $accentDarker: var(--accentDarker);
 
 $textOnAccent: var(--textOnAccent);
+
+
+
+
 
 $headerHeight: 25px;
 $footerHeight: 25px;
@@ -27,5 +45,9 @@ $mainHeight: calc(100vh - $headerHeight - $footerHeight);
 
 $sectionSpacing: 16px;
 $inSectionPadding: 16px;
+
+$borderRadiusL: 20px;
+$borderRadiusM: 14px;
+$borderRadiusS: 7px;
 
 

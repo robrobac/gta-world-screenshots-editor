@@ -2,5 +2,6 @@
 
 .headerMain {
     height: $headerHeight;
-    background-color: red;
+    background-color: $surface;
+    padding: 0 $inSectionPadding;
 }
