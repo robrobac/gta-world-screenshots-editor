@@ -11,9 +11,9 @@ export default function EditorSidebar() {
     <aside className='editorSidebarWrap'>
         <EditorUpload />
         <EditorUploaded />
-        <ButtonAccent title="Download All" fullWidth={true}>
+        {/* <ButtonAccent title="Download All" fullWidth={true}>
           <DownloadIcon />
-        </ButtonAccent>
+        </ButtonAccent> */}
     </aside>
   )
 }

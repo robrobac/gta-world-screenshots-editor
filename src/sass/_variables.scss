@@ -3,6 +3,8 @@
     --text: white;
 
     --accent: #FFAC00;
+    --accentLighter: #ffd581;
+    --accentDarker: #d89000;
     --textOnAccent: #2C2C2C;
 }
 #htmlElement[data-theme="light"] {
@@ -12,10 +14,18 @@
 
 $background: var(--background);
 $text: var(--text);
+
 $accent: var(--accent);
+$accentLighter: var(--accentLighter);
+$accentDarker: var(--accentDarker);
+
+$textOnAccent: var(--textOnAccent);
 
 $headerHeight: 25px;
 $footerHeight: 25px;
 $mainHeight: calc(100vh - $headerHeight - $footerHeight);
-$textOnAccent: var(--textOnAccent);
+
+$sectionSpacing: 16px;
+$inSectionPadding: 16px;
+
 

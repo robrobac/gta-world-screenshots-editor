@@ -1,4 +1,4 @@
-import { Image as KonvaImage, Layer, Rect, Stage } from "react-konva";
+import { Image as KonvaImage, Layer, Rect, Stage, Transformer } from "react-konva";
 import './editorKonvaCanvas.scss';
 import CanvasControls from "./canvasControls/CanvasControls";
 import UploadedImageScale from "./uploadedImageScale/UploadedImageScale";
@@ -15,6 +15,7 @@ export default function EditorKonvaCanvas({file}) {
     const { windowWidth, windowHeight } = useWindowSize();
 
     const stageRef = useRef(null)
+    const transformerRef = useRef(null);
 
     const [image, setImage] = useState(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
@@ -107,6 +108,7 @@ export default function EditorKonvaCanvas({file}) {
         const { x, y } = e.target.position();
         setImagePosition({ x, y });
     };
+    // UPDATING CHAT POSITION WHEN DRAGGING ACROSS THE CANVAS
     const handleDragMoveChat = (e, id) => {
         const { x, y } = e.target.position();
 
@@ -135,6 +137,7 @@ export default function EditorKonvaCanvas({file}) {
 
     // EXPORTING THE IMAGE
     const handleExport = () => {
+        setSelectedChatId("")
         const dataUrl = stageRef.current?.toDataURL({
             x: canvasExportSize.x,
             y: canvasExportSize.y,
@@ -159,13 +162,30 @@ export default function EditorKonvaCanvas({file}) {
 
     // HANDLING CHAT SELECTION
     const handleSelectChat = (id) => {
+        if (selectedChatId === id) {
+            setSelectedChatId("")
+            return
+        }
         setSelectedChatId(id);
     }
+
+    // Attach transformer to the selected chat
+    useEffect(() => {
+        if (transformerRef.current) {
+            if (selectedChatId) {
+                const selectedNode = stageRef.current.findOne(`#chat-${selectedChatId}`);
+                transformerRef.current.nodes([selectedNode]);
+                transformerRef.current.getLayer().batchDraw();
+            } else {
+                transformerRef.current.nodes([]);
+            }
+        }
+    }, [selectedChatId, chats]);
 
     return (
         <div className={`konvaCanvasWrap ${activeFileId === image?.id ? 'konvaCanvasActive' : ''}`}>
             {chats.map((chat) => (
-                <ChatEditor key={chat.id} id={chat.id} setChats={setChats} canvasExportSize={canvasExportSize}/>
+                <ChatEditor key={chat.id} id={chat.id} setChats={setChats} canvasExportSize={canvasExportSize} canvasSize={canvasSize} selectedChatId={selectedChatId} setSelectedChatId={setSelectedChatId}/>
             ))}
             <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize}/>
             <UploadedImageScale
@@ -198,6 +218,7 @@ export default function EditorKonvaCanvas({file}) {
                     {chats?.map((chat) => (
                         <KonvaImage 
                             key={chat.id}
+                            id={`chat-${chat.id}`}
                             image={chat.chatCanvas}
                             x={chat.position.x}
                             y={chat.position.y}
@@ -207,6 +228,10 @@ export default function EditorKonvaCanvas({file}) {
                             onClick={() => handleSelectChat(chat.id)}
                         />
                     ))}
+                    {selectedChatId && (
+                        <Transformer borderStroke="red" borderStrokeWidth={2} rotateEnabled={false} resizeEnabled={false} ref={transformerRef} />
+                    )}
+                    
                 </Layer>
                 <Layer>
                     <Rect opacity={0.5} listening={false} fill="gray" x={0} y={0} width={canvasExportSize.x} height={canvasSize.height} />

@@ -7,5 +7,35 @@
 
     display: flex;
     flex-direction: column;
-    gap: 16px;
+
+    padding-right: 0px;
+
+    border-radius: 20px;
+
+    ::-webkit-scrollbar {
+        height: 6px;
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        border-radius: 20px;
+        background-color: $accentLighter;
+    }
+    ::-webkit-scrollbar-track:hover {
+        background-color: $accentLighter;
+    }
+    ::-webkit-scrollbar-track:active {
+        background-color: $accentLighter;
+    }
+    ::-webkit-scrollbar-thumb {
+        border-radius: 20px;
+        background-color: $accent;
+        cursor: s-resize;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: $accentDarker;
+    }
+    ::-webkit-scrollbar-thumb:active {
+        background-color: $accentDarker;
+    }
+      
 }

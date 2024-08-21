@@ -2,3 +2,11 @@
     background-color: $backgroundColor;
     color: $textColor;
 }
+
+@mixin hover {
+    @media (hover: hover) {
+        &:hover {
+            @content;
+        }
+    }
+}
