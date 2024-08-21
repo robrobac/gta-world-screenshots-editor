@@ -1,6 +1,6 @@
-import MinusIcon from '../../assets/icons/MinusIcon';
-import PlusIcon from '../../assets/icons/PlusIcon';
-import XIcon from '../../assets/icons/XIcon';
+import MinusIcon from '../../../assets/icons/MinusIcon';
+import PlusIcon from '../../../assets/icons/PlusIcon';
+import XIcon from '../../../assets/icons/XIcon';
 import './zoomAndSizeSetting.scss';
 
 export default function ZoomAndSizeSetting() {

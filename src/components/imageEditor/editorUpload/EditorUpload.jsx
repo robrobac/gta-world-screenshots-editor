@@ -10,7 +10,7 @@ export default function EditorUpload() {
 
   return (
     <section className='editorUploadSection'>
-      <ButtonAccent title="Add Image(s)" rounded={true} fullWidth={true} onClick={() => uploadInputRef.current.click()}>
+      <ButtonAccent title="Add Image(s)" fullWidth={true} onClick={() => uploadInputRef.current.click()}>
         <PlusIcon />
       </ButtonAccent>
       <input ref={uploadInputRef} style={{position: 'absolute', top: "-100%", left: "-100%"}} multiple type="file" accept="image/*" onChange={handleUploadFiles} />

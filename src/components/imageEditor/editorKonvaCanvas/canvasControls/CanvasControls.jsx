@@ -2,12 +2,12 @@ import ButtonAccent from '../../../buttonAccent/ButtonAccent'
 import './canvasControls.scss'
 import TextIcon from '../../../../assets/icons/TextIcon';
 import ImageIcon from '../../../../assets/icons/ImageIcon';
-import ZoomAndSizeSetting from '../../../zoomAndSizeSetting/ZoomAndSizeSetting';
 import { v4 as uuid } from 'uuid';
 import DownloadIcon from '../../../../assets/icons/DownloadIcon';
 import { useContext } from 'react';
 import { ImageEditorContext } from '../../ImageEditor';
 import DeleteIcon from '../../../../assets/icons/DeleteIcon';
+import ZoomAndSizeSetting from '../../zoomAndSizeSetting/ZoomAndSizeSetting';
 
 export default function CanvasControls({handleExport, setChats, canvasExportSize, id, setSelectedChatId}) {
   const { handleFileDelete } = useContext(ImageEditorContext);
