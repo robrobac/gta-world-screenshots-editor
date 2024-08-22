@@ -9,3 +9,4 @@ export const onSurface = getCssVariableValue('--onSurface');
 export const onSurfaceDark = getCssVariableValue('--onSurfaceDark');
 export const onSurfaceDisabled = getCssVariableValue('--onSurfaceDisabled');
 export const accent = getCssVariableValue('--accent');
+export const inSectionPadding = parseFloat(getCssVariableValue('--inSectionPadding'));

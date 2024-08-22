@@ -6,8 +6,8 @@ export default function ZoomAndSizeSetting({ setCanvasExportSize, canvasSize, se
     const [width, setWidth] = useState(900);
     const [height, setHeight] = useState(450);
     const [contentSectionSize, setContentSectionSize] = useState({
-        width: 0,
-        height: 0
+        width: 1,
+        height: 1
     });
 
     const contentSection = document.querySelector('.editorContentWrap');

@@ -27,7 +27,6 @@ export default function EditorKonvaCanvas({file}) {
     const [chats, setChats] = useState([])
     const [selectedChatId, setSelectedChatId] = useState("")
 
-    const contentSection = document.querySelector('.editorContentWrap');
 
     // CREATING IMAGE IN THE CANVAS FROM THE GIVEN FILE
     useEffect(() => {
@@ -224,7 +223,9 @@ export default function EditorKonvaCanvas({file}) {
                 </Layer>
                 <Layer>
                     {chats?.map((chat) => (
-                        <KonvaImage 
+                        <KonvaImage
+                            width={chat.size.width || 50}
+                            height={chat.size.height || 50}
                             key={chat.id}
                             id={`chat-${chat.id}`}
                             image={chat.chatCanvas}

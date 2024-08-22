@@ -41,6 +41,7 @@ export default function ChatEditor({id, setChats, canvasExportSize, selectedChat
             html2canvas(editor, {
                 logging: false,
                 backgroundColor: "transparent",
+                willReadFrequently: true
             }).then((canvas) => {
                 setCanvasValue(canvas);
             });
@@ -86,7 +87,7 @@ export default function ChatEditor({id, setChats, canvasExportSize, selectedChat
     }, [canvasValue]);
 
     return (
-        <Draggable handle=".handle" defaultPosition={{ x: 0, y: 50 }} bounds="parent">
+        <Draggable handle=".handle" defaultPosition={{ x: 16, y: 66 }} bounds="parent">
             <div className={`chatEditorWrap ${selectedChatId === id && "selectedEditor"}`}>
                 <ReactQuill modules={modules} formats={formats} className={`quill-${id}`} theme="snow" value={value} onChange={setValue} />
                 <div className="chatEditorControls left">

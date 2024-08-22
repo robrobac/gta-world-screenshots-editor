@@ -22,6 +22,10 @@ export default function CanvasControls({handleExport, setChats, canvasExportSize
       position: {
         x: canvasExportSize.x,
         y: canvasExportSize.y
+      },
+      size: {
+        width: 50,
+        height: 50,
       }
     }
     setSelectedChatId(newId)
