@@ -1,4 +1,4 @@
-import { Image as KonvaImage, Layer, Rect, Stage, Transformer } from "react-konva";
+import { Image as KonvaImage, Layer, Rect, Stage } from "react-konva";
 import './editorKonvaCanvas.scss';
 import CanvasControls from "./canvasControls/CanvasControls";
 import UploadedImageScale from "./uploadedImageScale/UploadedImageScale";
@@ -6,11 +6,10 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { ImageEditorContext } from "../ImageEditor";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import ChatEditor from "./chatEditor/ChatEditor";
-import { accent, background, onSurfaceDark, surface } from "../../../sass/_variables";
+import { onSurfaceDark, surface } from "../../../sass/_variables";
+import Chat from "./chat/Chat";
 
 export const KonvaCanvasContext = createContext();
-
-console.log(background)
 
 
 export default function EditorKonvaCanvas({file}) {
@@ -18,17 +17,17 @@ export default function EditorKonvaCanvas({file}) {
     const { windowWidth, windowHeight } = useWindowSize();
 
     const stageRef = useRef(null)
-    const transformerRef = useRef(null);
 
+    // BACKGROUND IMAGE STATES
     const [image, setImage] = useState(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
     const [imageScale, setImageScale] = useState(1.00);
 
+    // CHATS STATES
     const [chats, setChats] = useState([])
     const [selectedChatId, setSelectedChatId] = useState("")
 
-
-    // CREATING IMAGE IN THE CANVAS FROM THE GIVEN FILE
+    // CREATING BACKGROUNDIMAGE IN THE CANVAS FROM THE GIVEN FILE
     useEffect(() => {
         const imageUrl = URL.createObjectURL(file.file)
         const image = new Image()
@@ -56,7 +55,7 @@ export default function EditorKonvaCanvas({file}) {
         y: (canvasSize.height - 450) / 2,
     });
 
-    // Calculating the visible canvas size depending on the container size
+    // Calculating the visible canvas size depending on the container size when the window is resized
     useEffect(() => {
         const contentSection = document.querySelector('.editorContentWrap');
         setCanvasSize({
@@ -66,12 +65,8 @@ export default function EditorKonvaCanvas({file}) {
     }, [windowWidth, windowHeight])
 
     // Calculating the export area size and the position depending on the visible canvas size
-    // Also if there's chats, calculate new chat position on canvasSize change
     useEffect(() => {
         const { width, height } = canvasExportSize;
-
-        const prevCanvasExportX = canvasExportSize.x
-        const prevCanvasExportY = canvasExportSize.y
 
         const newCanvasExportX = (canvasSize.width - width) / 2
         const newCanvasExportY = (canvasSize.height - height) / 2
@@ -82,61 +77,13 @@ export default function EditorKonvaCanvas({file}) {
             x: newCanvasExportX,
             y: newCanvasExportY,
         });
-
-        if (chats.length > 0) {
-            setChats(prevChats => prevChats.map((chat) => {
-                const prevChatX = chat.position.x
-                const prevChatY = chat.position.y
-
-                const offsetX = prevChatX - prevCanvasExportX
-                const offsetY = prevChatY - prevCanvasExportY
-    
-                const newPosition = {
-                    x: newCanvasExportX + offsetX,
-                    y: newCanvasExportY + offsetY,
-                }
-    
-                return {
-                    ...chat,
-                    position: newPosition
-                }
-            }))
-        }
-
-        // const contentSection = document.querySelector('.editorContentWrap');
-        // contentSection.style = `min-width: ${width + 50}px; min-height: ${height + 50}px;`;
     }, [canvasSize]);
+
 
     // UPDATING IMAGE POSITION WHEN DRAGGING ACROSS THE CANVAS
     const handleDragMoveImage = (e) => {
         const { x, y } = e.target.position();
         setImagePosition({ x, y });
-    };
-    // UPDATING CHAT POSITION WHEN DRAGGING ACROSS THE CANVAS
-    const handleDragMoveChat = (e, id) => {
-        const { x, y } = e.target.position();
-
-        setChats(prevChats => prevChats.map(chat => 
-            chat.id === id ? { ...chat, position: { x, y }, size: {width: e.target.width(), height: e.target.height()} } : chat
-        ))
-    };
-    // Function to constrain the drag within boundary
-    const getDragBoundFunc = (chatSize) => {
-        return (pos) => {
-            const { x, y } = pos;
-            const { x: exportX, y: exportY, width, height } = canvasExportSize;
-            
-            // Calculate boundaries taking into account the size of the element
-            const leftBoundary = exportX;
-            const rightBoundary = exportX + width - chatSize.width;
-            const topBoundary = exportY;
-            const bottomBoundary = exportY + height - chatSize.height;
-            
-            return {
-                x: Math.max(leftBoundary, Math.min(rightBoundary, x)),
-                y: Math.max(topBoundary, Math.min(bottomBoundary, y)),
-            };
-        };
     };
 
     // EXPORTING THE IMAGE
@@ -151,7 +98,7 @@ export default function EditorKonvaCanvas({file}) {
             quality: 1,
 
         });
-        downloadUrl(dataUrl, "screenshot.png");
+        downloadUrl(dataUrl, "edited-screenshot.png");
     };
 
     // CREATING A LINK TO DOWNLOAD IMAGE
@@ -164,32 +111,18 @@ export default function EditorKonvaCanvas({file}) {
         document.body.removeChild(link);
     };
 
-    // HANDLING CHAT SELECTION
-    const handleSelectChat = (id) => {
-        if (selectedChatId === id) {
-            setSelectedChatId("")
-            return
-        }
-        setSelectedChatId(id);
-    }
-
-    // Attach transformer to the selected chat
-    useEffect(() => {
-        if (transformerRef.current) {
-            if (selectedChatId) {
-                const selectedNode = stageRef.current.findOne(`#chat-${selectedChatId}`);
-                transformerRef.current.nodes([selectedNode]);
-                transformerRef.current.getLayer().batchDraw();
-            } else {
-                transformerRef.current.nodes([]);
-            }
-        }
-    }, [selectedChatId, chats]);
-
     return (
         <div className={`konvaCanvasWrap ${activeFileId === image?.id ? 'konvaCanvasActive' : ''}`}>
-            {chats.map((chat) => (
-                <ChatEditor key={chat.id} id={chat.id} setChats={setChats} canvasExportSize={canvasExportSize} canvasSize={canvasSize} selectedChatId={selectedChatId} setSelectedChatId={setSelectedChatId}/>
+            {chats?.map((chat) => (
+                <ChatEditor
+                    key={chat.id}
+                    currentChat={chat}
+                    setChats={setChats}
+                    selectedChatId={selectedChatId}
+                    setSelectedChatId={setSelectedChatId}
+                    canvasExportSize={canvasExportSize}
+                    canvasSize={canvasSize}
+                />
             ))}
             <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize} setCanvasExportSize={setCanvasExportSize} canvasSize={canvasSize} setCanvasSize={setCanvasSize} id={file.id} setSelectedChatId={setSelectedChatId}/>
             <UploadedImageScale
@@ -223,23 +156,15 @@ export default function EditorKonvaCanvas({file}) {
                 </Layer>
                 <Layer>
                     {chats?.map((chat) => (
-                        <KonvaImage
-                            width={chat.size.width || 50}
-                            height={chat.size.height || 50}
+                        <Chat
                             key={chat.id}
-                            id={`chat-${chat.id}`}
-                            image={chat.chatCanvas}
-                            x={chat.position.x}
-                            y={chat.position.y}
-                            draggable={selectedChatId === chat.id}
-                            dragBoundFunc={getDragBoundFunc(chat.size)}
-                            onDragMove={(e) => handleDragMoveChat(e, chat.id)}
-                            onClick={() => handleSelectChat(chat.id)}
+                            chat={chat}
+                            stageRef={stageRef}
+                            canvasExportSize={canvasExportSize}
+                            selectedChatId={selectedChatId}
+                            setSelectedChatId={setSelectedChatId}
                         />
                     ))}
-                    {selectedChatId && (
-                        <Transformer borderDash={[4, 4]} borderStroke={accent} borderStrokeWidth={3} rotateEnabled={false} resizeEnabled={false} ref={transformerRef} />
-                    )}
                     
                 </Layer>
                 <Layer>

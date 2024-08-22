@@ -22,82 +22,71 @@ const modules = {
 const formats = ["size", "background", "color"]
 
 
-export default function ChatEditor({id, setChats, canvasExportSize, selectedChatId, setSelectedChatId}) {
-    const [value, setValue] = useState("")
-    const [canvasValue, setCanvasValue] = useState(null)
+export default function ChatEditor({currentChat, setChats, canvasExportSize, selectedChatId, setSelectedChatId}) {
+    const [value, setValue] = useState(currentChat.chatValue)
+    console.log("valueeee", value)
 
-    const debouncedValue = useDebounce(value, 200); // Creating a canvas from the editor HTML
+    // DEBOUNCING THE EDITOR VALUE
+    const debouncedValue = useDebounce(value, 200);
+    // THEN CREATING A CANVAS FROM THAT VALUE
+    useEffect(() => {
+        if (debouncedValue) {
+          const editor = document.querySelector(`.quill-${currentChat.id} .ql-editor`);
+          if (!editor) return;
+    
+          editor.style.width = `fit-content`;
+    
+          html2canvas(editor, {
+            logging: false,
+            backgroundColor: "transparent",
+            willReadFrequently: true
+          }).then((canvas) => {
+    
+            setChats((prevChats) => {
+              if (!prevChats) return []; // Handle case where prevChats is undefined
+    
+              return prevChats.map((chat) => {
+                if (chat.id === currentChat.id) {
+                  return { ...chat, chatCanvas: canvas, chatValue: debouncedValue };
+                }
+                return chat; // Ensure that other chats are returned unchanged
+              });
+            });
+          });
+    
+          editor.style.width = `unset`;
+        }
+      }, [debouncedValue]);
+
 
     const handleDeleteChat = (id) => {
         setChats(prevChats => prevChats.filter(chat => chat.id !== id));
         setSelectedChatId("")
     }
 
-    useEffect(() => {
-        if (debouncedValue) {
-            const editor = document.querySelector(`.quill-${id} .ql-editor`);
-            editor.style.width = `fit-content`;
-
-            html2canvas(editor, {
-                logging: false,
-                backgroundColor: "transparent",
-                willReadFrequently: true
-            }).then((canvas) => {
-                setCanvasValue(canvas);
-            });
-
-            editor.style.width = `unset`;
-        }
-    }, [debouncedValue, id]);
-
-    useEffect(() => {
-        if (value) {
-            setChats((prev) => {
-                // CHECKING THE EXISTING OBJECT ID
-                const existingIndex = prev.findIndex(chat => chat.id === id);
-    
-                const newTextObj = {
-                    id: id,
-                    chatValue: value,
-                    chatCanvas: canvasValue,
-                    size: {
-                        width: canvasValue.width,
-                        height: canvasValue.height
-                    }
-                };
-    
-                // IF NOT FOUND, ADD THE NEW OBJECT WITH POSITION
-                if (existingIndex === -1) {
-                    newTextObj.position = {
-                        x: canvasExportSize.x,
-                        y: canvasExportSize.y
-                    };
-                    return [...prev, newTextObj];
-                }
-    
-                // IF FOUND, UPDATE THE EXISTING OBJECT WITHOUT POSITION
-                const updatedTexts = [...prev];
-                updatedTexts[existingIndex] = {
-                    ...updatedTexts[existingIndex],
-                    ...newTextObj
-                };
-                return updatedTexts;
-            });
-        }
-    }, [canvasValue]);
-
     return (
-        <Draggable handle=".handle" defaultPosition={{ x: 16, y: 66 }} bounds="parent">
-            <div className={`chatEditorWrap ${selectedChatId === id && "selectedEditor"}`}>
-                <ReactQuill modules={modules} formats={formats} className={`quill-${id}`} theme="snow" value={value} onChange={setValue} />
+        <Draggable
+            handle=".handle"
+            defaultPosition={{ x: 16, y: 66 }}
+            bounds="parent"
+        >
+            <div className={`chatEditorWrap ${selectedChatId === currentChat.id && "selectedEditor"}`}>
+                <ReactQuill
+                    modules={modules}
+                    formats={formats}
+                    className={`quill-${currentChat.id}`}
+                    theme="snow"
+                    value={value}
+                    onChange={setValue}
+                />
                 <div className="chatEditorControls left">
                     <div className="chatControl dragChat handle">
                         <DragIndicatorIcon />
                     </div>
                 </div>
                 <div className="chatEditorControls right">
-                    {selectedChatId === id && (
-                        <div className="chatControl deleteChat" onClick={() => handleDeleteChat(id)}>
+                    {selectedChatId === currentChat.id && (
+                        <div className="chatControl deleteChat" onClick={() => handleDeleteChat(currentChat.id)}>
                             <DeleteIcon />
                         </div>
                     )}

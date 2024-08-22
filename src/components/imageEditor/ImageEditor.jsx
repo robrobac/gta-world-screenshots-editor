@@ -9,13 +9,10 @@ export const ImageEditorContext = createContext();
 export default function ImageEditor() {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [activeFileId, setActiveFileId] = useState("")
-    console.log("uploadedFiles", uploadedFiles)
-    console.log("activeFileId", activeFileId)
 
     // FILES UPLOAD FUNCTION
     const handleUploadFiles = (e) => {
         if (e.target.files.length > 0) {
-            console.log("e.target.files", e.target.files)
             Array.from(e.target.files).forEach((file) => {
                 const fileObj = {
                     id: uuid(),

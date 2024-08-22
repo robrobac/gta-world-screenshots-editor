@@ -14,23 +14,18 @@ export default function CanvasControls({handleExport, setChats, canvasExportSize
 
   const handleCreateChat = () => {
     const newId = uuid();
+
     const chatObj = {
       id: newId,
-      chatValue: "",
+      chatValue: "<p>Sample Text says: Hello I am a sample text.</p><p>Another Text says: No shit Sherlock.</p>",
       chatCanvas: null,
       visible: true,
-      position: {
-        x: canvasExportSize.x,
-        y: canvasExportSize.y
-      },
-      size: {
-        width: 50,
-        height: 50,
-      }
     }
-    setSelectedChatId(newId)
+    
     setChats(prev => [...prev, chatObj])
+    setSelectedChatId(newId)
   }
+
   return (
     <div className='canvasControlsWrap'>
       <div className='controlGroup'>
