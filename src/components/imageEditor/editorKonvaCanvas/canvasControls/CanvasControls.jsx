@@ -9,7 +9,7 @@ import { ImageEditorContext } from '../../ImageEditor';
 import DeleteIcon from '../../../../assets/icons/DeleteIcon';
 import ZoomAndSizeSetting from '../../zoomAndSizeSetting/ZoomAndSizeSetting';
 
-export default function CanvasControls({handleExport, setChats, canvasExportSize, setCanvasExportSize, canvasSize, setCanvasSize, id, setSelectedChatId}) {
+export default function CanvasControls({handleExport, setChats, setCanvasExportSize, canvasSize, setCanvasSize, id, setSelectedChatId}) {
   const { handleFileDelete } = useContext(ImageEditorContext);
 
   const handleCreateChat = () => {

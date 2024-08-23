@@ -90,16 +90,19 @@ export default function EditorKonvaCanvas({file}) {
     // EXPORTING THE IMAGE
     const handleExport = () => {
         setSelectedChatId("")
-        const dataUrl = stageRef.current?.toDataURL({
-            x: canvasExportSize.x,
-            y: canvasExportSize.y,
-            width: canvasExportSize.width,
-            height: canvasExportSize.height,
-            pixelRatio: 1,
-            quality: 1,
-
-        });
-        downloadUrl(dataUrl, "edited-screenshot.png");
+        setHoverChatId("")
+        
+        setTimeout(() => {
+            const dataUrl = stageRef.current?.toDataURL({
+                x: canvasExportSize.x,
+                y: canvasExportSize.y,
+                width: canvasExportSize.width,
+                height: canvasExportSize.height,
+                pixelRatio: 1,
+                quality: 1,
+            });
+            downloadUrl(dataUrl, "edited-screenshot.png");
+        }, 500);
     };
 
     // CREATING A LINK TO DOWNLOAD IMAGE
