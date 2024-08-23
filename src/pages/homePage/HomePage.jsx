@@ -1,4 +1,3 @@
-import Editor from '../../components/editor/Editor';
 import Footer from '../../components/footer/Footer';
 import Header from '../../components/Header/header';
 import ImageEditor from '../../components/imageEditor/ImageEditor';

@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { Image as KonvaImage, Transformer } from "react-konva";
-import { accent } from "../../../../sass/_variables";
+import { Image as KonvaImage, Rect, Transformer } from "react-konva";
+import { accent, accentTransparent, borderRadiusM } from "../../../../sass/_variables";
 
-export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, setSelectedChatId}) {
-    const [position, setPosition] = useState({ x: canvasExportSize.x, y: canvasExportSize.y });
+export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, setSelectedChatId, hoverChatId, setHoverChatId}) {
+    const [position, setPosition] = useState({ x: canvasExportSize.x + 4, y: canvasExportSize.y + 4 });
     const [size, setSize] = useState({
         width: chat.chatCanvas ? chat.chatCanvas.width : 100,
         height: chat.chatCanvas ? chat.chatCanvas.height : 100
     });
+    const chatRef = useRef(null);
     const transformerRef = useRef(null);
 
     useEffect(() => {
-        console.log(chat)
         if (chat.chatCanvas) {
             setSize({
                 width: chat.chatCanvas.width,
@@ -49,8 +49,8 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
             const bottomBoundary = exportY + height - chatHeight;
             
             return {
-                x: Math.max(leftBoundary, Math.min(rightBoundary, x)),
-                y: Math.max(topBoundary, Math.min(bottomBoundary, y)),
+                x: Math.max(leftBoundary + 4, Math.min(rightBoundary - 4, x + 4)),
+                y: Math.max(topBoundary + 4, Math.min(bottomBoundary - 4, y + 4)),
             };
         };
     };
@@ -70,20 +70,54 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
 
     return (
         <>
-        <KonvaImage
-            width={size.width}
-            height={size.height}
-            key={chat.id}
-            id={`chat-${chat.id}`}
-            image={chat.chatCanvas}
-            x={position.x}
-            y={position.y}
-            draggable={selectedChatId === chat.id}
-            dragBoundFunc={getDragBoundFunc(size.width, size.height)}
-            onDragMove={handleDragMoveChat}
-            onClick={() => handleSelectChat(chat.id)}
-        />
-        <Transformer borderDash={[4, 4]} borderStroke={accent} borderStrokeWidth={3} rotateEnabled={false} resizeEnabled={false} ref={transformerRef} />
+
+            {selectedChatId === chat.id && (
+                <Rect
+                    x={position.x - 2.5}
+                    y={position.y - 2.5}
+                    width={size.width + 5}
+                    height={size.height + 5}
+                    cornerRadius={borderRadiusM}
+                    fill={hoverChatId === chat.id ? "rgba(0, 0, 0, 0.3)" : "transparent"}
+                    stroke={accent}
+                    strokeWidth={3}
+                    dash={[5, 5]} // Apply dashed border on hover
+                />
+            )}
+            {hoverChatId === chat.id && selectedChatId !== chat.id && (
+                <Rect
+                    x={position.x - 2.5}
+                    y={position.y - 2.5}
+                    width={size.width + 5}
+                    height={size.height + 5}
+                    cornerRadius={borderRadiusM}
+                    fill={hoverChatId === chat.id ? accentTransparent : "transparent"}
+                />
+            )}
+            <KonvaImage
+                ref={chatRef}
+                width={size.width}
+                height={size.height}
+                key={chat.id}
+                id={`chat-${chat.id}`}
+                image={chat.chatCanvas}
+                x={position.x}
+                y={position.y}
+                draggable={selectedChatId === chat.id}
+                dragBoundFunc={getDragBoundFunc(size.width, size.height)}
+                onDragMove={handleDragMoveChat}
+                onClick={() => handleSelectChat(chat.id)}
+                
+                onMouseEnter={() => setHoverChatId(chat.id)}
+                onMouseLeave={() => setHoverChatId("")}
+            />
+            <Transformer
+                borderStroke={"transparent"}
+                rotateEnabled={false}
+                resizeEnabled={false}
+                ref={transformerRef}
+                
+            />
         </>
     )
 }

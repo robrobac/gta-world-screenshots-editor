@@ -1,3 +1,8 @@
+#htmlElement {
+    --inSectionPadding: 16px;
+    --borderRadiusM: 12px;
+}
+
 #htmlElement[data-theme="dark"] {
     --background: rgb(37, 37, 37);
     --surface: rgb(18, 18, 18);
@@ -10,6 +15,7 @@
     --text: white;
 
     --accent: #FFAC00;
+    --accentTransparent: rgba(255, 170, 0, 0.199);
     --accentHover: #ffd480;
     --accentDarker: #774f00;
     --textOnAccent: #2C2C2C;
@@ -30,13 +36,12 @@ $onSurfaceDisabled: var(--onSurfaceDisabled);
 $text: var(--text);
 
 $accent: var(--accent);
+$accent: var(--accent);
+$accentTransparent: var(--accentTransparent);
 $accentHover: var(--accentHover);
 $accentDarker: var(--accentDarker);
 
 $textOnAccent: var(--textOnAccent);
-
-
-
 
 
 $headerHeight: 25px;
@@ -47,7 +52,8 @@ $sectionSpacing: 16px;
 $inSectionPadding: 16px;
 
 $borderRadiusL: 20px;
-$borderRadiusM: 14px;
+$borderRadiusM: 12px;
 $borderRadiusS: 7px;
+$borderRadiusXS: 5px;
 
 

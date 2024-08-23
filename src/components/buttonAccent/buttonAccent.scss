@@ -3,7 +3,7 @@
 .buttonAccent {
     background-color: $accent;
     border: none;
-    color: $textOnAccent;
+    color: $surface;
     font-size: 16px;
     font-weight: 600;
 
@@ -18,7 +18,7 @@
     cursor: pointer;
 
     svg {
-        fill: $textOnAccent;
+        fill: $surface;
     }
 
     @include hover {

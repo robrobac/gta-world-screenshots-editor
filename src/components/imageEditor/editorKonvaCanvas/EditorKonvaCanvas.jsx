@@ -26,6 +26,7 @@ export default function EditorKonvaCanvas({file}) {
     // CHATS STATES
     const [chats, setChats] = useState([])
     const [selectedChatId, setSelectedChatId] = useState("")
+    const [hoverChatId, setHoverChatId] = useState("")
 
     // CREATING BACKGROUNDIMAGE IN THE CANVAS FROM THE GIVEN FILE
     useEffect(() => {
@@ -122,6 +123,8 @@ export default function EditorKonvaCanvas({file}) {
                     setSelectedChatId={setSelectedChatId}
                     canvasExportSize={canvasExportSize}
                     canvasSize={canvasSize}
+                    hoverChatId={hoverChatId}
+                    setHoverChatId={setHoverChatId}
                 />
             ))}
             <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize} setCanvasExportSize={setCanvasExportSize} canvasSize={canvasSize} setCanvasSize={setCanvasSize} id={file.id} setSelectedChatId={setSelectedChatId}/>
@@ -139,7 +142,7 @@ export default function EditorKonvaCanvas({file}) {
                 style={{maxWidth: "100%", backgroundColor: surface}}
             >
                 <Layer>
-                    <Rect opacity={1} listening={false} fill={onSurfaceDark} x={canvasExportSize.x} y={canvasExportSize.y} width={canvasExportSize.width} height={canvasExportSize.height} />
+                    <Rect opacity={1} listening={false} fill={onSurfaceDark} x={canvasExportSize.x} y={canvasExportSize.y} width={canvasExportSize.width} height={canvasExportSize.height}/>
                 </Layer>
                 <Layer>
                     {image && (
@@ -163,11 +166,13 @@ export default function EditorKonvaCanvas({file}) {
                             canvasExportSize={canvasExportSize}
                             selectedChatId={selectedChatId}
                             setSelectedChatId={setSelectedChatId}
+                            hoverChatId={hoverChatId}
+                            setHoverChatId={setHoverChatId}
                         />
                     ))}
                     
                 </Layer>
-                <Layer>
+                <Layer> 
                     <Rect opacity={0.9} listening={false} fill={surface} x={0} y={0} width={canvasExportSize.x} height={canvasSize.height} />
                     <Rect opacity={0.9} listening={false} fill={surface} x={canvasSize.width - canvasExportSize.x} y={0} width={canvasExportSize.x} height={canvasSize.height} />
                     <Rect opacity={0.9} listening={false} fill={surface} x={canvasExportSize.x} y={0} width={canvasExportSize.width} height={canvasExportSize.y} />

@@ -3,24 +3,41 @@
 .chatEditorWrap {
     position: absolute;
     z-index: 150;
+    min-width: 400px;
     max-width: 700px;
+
+    padding: 5px;
+    border: 2px dashed transparent;
+    border-radius: $borderRadiusM;
+
+    right: 0;
+
+    &.selectedEditor {
+        border: 2px dashed $accent;
+    }
+    &.hoverEditor {
+        background-color: $accentTransparent;
+    }
 
     .chatEditorControls {
         position: absolute;
-        top: 0;
+        top: 5px;
+        gap: 5px;
 
-        height: 42px;
+        height: 40px;
         display: flex;
+
+        padding: 5px;
 
         &.left {
             left: 0;
         }
         &.right {
-            right: 0;
+            right: 5px;
         }
 
         svg {
-            fill: red;
+            fill: $surface;
         }
 
         .chatControl {
@@ -29,22 +46,57 @@
             align-items: center;
             padding-bottom: 2px;
             cursor: pointer;
-            width: 42px;
+            width: 30px;
+            border-radius: $borderRadiusS;
+
+            @include hover {
+                background-color: $accentHover;
+            }
 
             &.dragChat {
-                // width: unset;
-                border-right: 1px solid gray;
                 cursor: grab;
+                background-color: $accentHover;
             }
         }
     }
 
+    &.hiddenEditor {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        min-width: unset;
+
+        transform-origin: right center;
+
+        .quill {
+            width: 110px;
+
+            .ql-container.ql-snow {
+                display: none;
+            }
+        }
+
+        .ql-toolbar.ql-snow {
+            border-radius: $borderRadiusS;
+            pointer-events: none;
+            height: 40px;
+
+            * {
+                opacity: 0;
+            }
+        }
+        
+    }
+
     .quill {
-        background-color: white;
+        background-color: $background;
+        border-radius: $borderRadiusS;
+
         .ql-size-small, .ql-size-large, p{
-            font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+            // font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+            font-family: Arial, Helvetica, sans-serif !important;
             font-weight: 400 !important;
-            letter-spacing: 0.3px;
+            letter-spacing: 1.3px;
         }
 
         p {
@@ -62,12 +114,173 @@
     
     }
 
-    .ql-toolbar {
-        padding-left: 50px;
+    .ql-toolbar.ql-snow {
+        background-color: $accent;
+        border-radius: $borderRadiusS $borderRadiusS 0 0;
+        border: none;
+
+        .ql-formats {
+
+            // SIZE SELECTION PART OF THE QUILL TOOLBAR
+            .ql-size {
+                color: $surface;
+                font-weight: 600;
+                border-radius: $borderRadiusS;
+
+                @include hover {
+                    background-color: $accentHover;
+                    
+                    .ql-picker-label {
+                        color: $surface;
+                    }
+                }
+
+                .ql-picker-label {
+                    &::before {
+                        font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+                    }
+                    svg polygon {
+                        stroke: $surface;
+                    }
+                }
+
+                .ql-picker-options {
+                    border: none;
+                    background-color: white;
+                }
+                
+                &.ql-expanded {
+                    background-color: $accentHover;
+                    border-radius: $borderRadiusS $borderRadiusS 0 0;
+
+                    .ql-picker-label {
+                        color: $surface;
+                    }
+
+                    .ql-picker-options {
+                        background-color: $accentHover;
+                        border-top: 1px solid $accent;
+                        border-radius: 0 0 $borderRadiusS $borderRadiusS;
+                    }
+                    
+                }
+                
+            } // END OF SIZE SELECTION PART OF THE QUILL TOOLBAR
+            
+            .ql-color {
+                border-radius: $borderRadiusS;
+
+                .ql-transparent {
+                    opacity: 1;
+                }
+                .ql-picker-label {
+                    svg * {
+                        stroke: $surface;
+                    }
+                }
+
+                @include hover {
+                    background-color: $accentHover;
+                }
+
+                &.ql-expanded {
+                    background-color: $accentHover;
+                    border-radius: $borderRadiusS $borderRadiusS 0 0;
+                   
+
+                    .ql-picker-label {
+                        border-color: rgba(255, 255, 255, 0);
+                    }
+                    .ql-picker-options {
+                        border-color: rgba(255, 255, 255, 0);
+                        background-color: $accentHover;
+                        border-top: 1px solid $accent;
+                        border-radius: 0 $borderRadiusS $borderRadiusS $borderRadiusS;
+                    }
+                }
+
+            }
+
+            .ql-background {
+                border-radius: $borderRadiusS;
+
+                .ql-transparent {
+                    opacity: 1;
+                }
+                .ql-picker-label {
+                    .ql-stroke {
+                        stroke: $surface;
+                    }
+                }
+
+                @include hover {
+                    background-color: $accentHover;
+                    
+                }
+
+                &.ql-expanded {
+                    background-color: $accentHover;
+                    border-radius: $borderRadiusS $borderRadiusS 0 0;
+                   
+
+                    .ql-picker-label {
+                        border-color: rgba(255, 255, 255, 0);
+                    }
+                    .ql-picker-options {
+                        border-color: rgba(255, 255, 255, 0);
+                        background-color: $accentHover;
+                        border-top: 1px solid $accent;
+                        border-radius: 0 $borderRadiusS $borderRadiusS $borderRadiusS;
+                    }
+                }
+            }
+        }
+        .ql-clean {
+            position: relative;
+            border-radius: $borderRadiusS;
+            @include hover {
+                background-color: $accentHover;
+
+                svg line {
+                    stroke: $surface;
+                }
+                svg rect {
+                    fill: $surface;
+                }
+
+                &::before {
+                    content: "Clean formating";
+                    border-radius: $borderRadiusS;
+                    color: $surface;
+                    padding: 4px;
+                    font-size: 10px;
+                    font-weight: 600;
+                    text-align: center;
+                    position: absolute;
+                    top: -35px;
+                    left: -50%;
+                    background-color: $accentHover;
+                }
+            }
+            svg line {
+                stroke: $surface;
+            }
+            svg rect {
+                fill: $surface;
+            }
+        }
+    }
+
+    .ql-container.ql-snow {
+        border: none;
+
+        .ql-editor {
+            padding: 10px;
+        }
     }
     
     .ql-editor {
-            
+
         p {
             line-height: unset;
         }

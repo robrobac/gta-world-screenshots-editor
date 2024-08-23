@@ -19,7 +19,6 @@ export default function CanvasControls({handleExport, setChats, canvasExportSize
       id: newId,
       chatValue: "<p>Sample Text says: Hello I am a sample text.</p><p>Another Text says: No shit Sherlock.</p>",
       chatCanvas: null,
-      visible: true,
     }
     
     setChats(prev => [...prev, chatObj])
