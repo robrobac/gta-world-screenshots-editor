@@ -18,7 +18,11 @@ export default function EditorUploaded() {
                         onClick={() => handleFileSelect(file.id)}
                     />
                     <div className="thumbnailButtons">
-                        <ButtonAccent outlined={true} variant="thumbnailControl" iconOnly={true} onClick={() => handleFileDelete(file.id)}>
+                        <ButtonAccent
+                            outlined={true}
+                            variant="thumbnailControl"
+                            iconOnly={true} onClick={() => handleFileDelete(file.id)}
+                        >
                             <DeleteIcon />
                         </ButtonAccent>
                     </div>

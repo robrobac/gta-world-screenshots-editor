@@ -2,15 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { Image as KonvaImage, Rect, Transformer } from "react-konva";
 import { accent, accentTransparent, borderRadiusM } from "../../../../sass/_variables";
 
-export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, setSelectedChatId, hoverChatId, setHoverChatId}) {
+export default function Chat({chat, stageRef, selectedChatId, setSelectedChatId, hoverChatId, setHoverChatId, canvasExportSize}) {
     const [position, setPosition] = useState({ x: canvasExportSize.x + 4, y: canvasExportSize.y + 4 });
     const [size, setSize] = useState({
-        width: chat.chatCanvas ? chat.chatCanvas.width : 100,
-        height: chat.chatCanvas ? chat.chatCanvas.height : 100
+        width: chat.chatCanvas ? chat.chatCanvas.width : 10,
+        height: chat.chatCanvas ? chat.chatCanvas.height : 10
     });
+
     const chatRef = useRef(null);
     const transformerRef = useRef(null);
 
+    // Setting the size of the chat based on the chat canvas
     useEffect(() => {
         if (chat.chatCanvas) {
             setSize({
@@ -20,7 +22,7 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
         }
     }, [chat])
 
-    // HANDLING CHAT SELECTION
+    // Selecting the chat
     const handleSelectChat = (id) => {
         if (selectedChatId === id) {
             setSelectedChatId("")
@@ -29,14 +31,14 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
         setSelectedChatId(id);
     }
 
-    // UPDATING CHAT POSITION WHEN DRAGGING ACROSS THE CANVAS
+    // Updating chat position when dragging across the canvas
     const handleDragMoveChat = (e) => {
         const { x, y } = e.target.position();
         setSelectedChatId(chat.id)
         setPosition({ x, y });
     };
 
-    // Function to constrain the drag within boundary
+    // Function to keep the chat canvas within the boundary
     const getDragBoundFunc = (chatWidth, chatHeight) => {
         return (pos) => {
             const { x, y } = pos;
@@ -55,7 +57,7 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
         };
     };
 
-    // Attach transformer to the selected chat
+    // Attach transformer to the selected chat, chat is draggable after you select it
     useEffect(() => {
         if (transformerRef.current) {
             if (selectedChatId) {
@@ -70,7 +72,7 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
 
     return (
         <>
-
+            {/* Highlight the selected chat */}
             {selectedChatId === chat.id && (
                 <Rect
                     x={position.x - 2.5}
@@ -84,6 +86,8 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
                     dash={[5, 5]} // Apply dashed border on hover
                 />
             )}
+
+            {/* Highlight the hovered chat, only when not selected */}
             {hoverChatId === chat.id && selectedChatId !== chat.id && (
                 <Rect
                     x={position.x - 2.5}
@@ -94,29 +98,31 @@ export default function Chat({chat, canvasExportSize, stageRef, selectedChatId, 
                     fill={hoverChatId === chat.id ? accentTransparent : "transparent"}
                 />
             )}
+
+            {/* Chat canvas image */}
             <KonvaImage
-                ref={chatRef}
-                width={size.width}
-                height={size.height}
                 key={chat.id}
                 id={`chat-${chat.id}`}
+                ref={chatRef}
                 image={chat.chatCanvas}
+                width={size.width}
+                height={size.height}
                 x={position.x}
                 y={position.y}
+                onMouseEnter={() => setHoverChatId(chat.id)}
+                onMouseLeave={() => setHoverChatId("")}
+                onClick={() => handleSelectChat(chat.id)}
                 draggable={selectedChatId === chat.id}
                 dragBoundFunc={getDragBoundFunc(size.width, size.height)}
                 onDragMove={handleDragMoveChat}
-                onClick={() => handleSelectChat(chat.id)}
-                
-                onMouseEnter={() => setHoverChatId(chat.id)}
-                onMouseLeave={() => setHoverChatId("")}
             />
+            
+            {/* Transparent transformer, using its functionality only */}
             <Transformer
                 borderStroke={"transparent"}
                 rotateEnabled={false}
                 resizeEnabled={false}
                 ref={transformerRef}
-                
             />
         </>
     )

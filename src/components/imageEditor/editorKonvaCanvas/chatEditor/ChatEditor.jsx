@@ -11,23 +11,17 @@ import ExpandIcon from "../../../../assets/icons/ExpandIcon";
 import "react-quill/dist/quill.snow.css";
 import { inSectionPadding } from "../../../../sass/_variables";
 
+
+// Quill Editor options
 const toolbarOptions = [  
   [{ 'size': ['small', false, 'large'] }],
-
   [{ 'color': ["red", "green", "blue"] }, { 'background': ["red", "green", "blue"] }],
-
   ['clean']
 ];
-
-const modules = {
-  toolbar: toolbarOptions,
-
-}
-
+const modules = {toolbar: toolbarOptions}
 const formats = ["size", "background", "color"]
 
-
-export default function ChatEditor({currentChat, setChats, selectedChatId, setSelectedChatId, canvasSize, hoverChatId, setHoverChatId}) {
+export default function ChatEditor({ currentChat, setChats, selectedChatId, setSelectedChatId, hoverChatId, setHoverChatId, canvasSize }) {
   const [value, setValue] = useState(currentChat.chatValue)
   const [chatEditorSize, setChatEditorSize] = useState({ width: 0, height: 0 })
   const [chatEditorBounds, setChatEditorBounds] = useState({top: 0, left: 0, right: 0, bottom: 0})

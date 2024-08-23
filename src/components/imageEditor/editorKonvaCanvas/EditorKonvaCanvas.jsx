@@ -1,4 +1,4 @@
-import { Image as KonvaImage, Layer, Rect, Stage } from "react-konva";
+import { Image as KonvaImage, Layer, Stage } from "react-konva";
 import './editorKonvaCanvas.scss';
 import CanvasControls from "./canvasControls/CanvasControls";
 import UploadedImageScale from "./uploadedImageScale/UploadedImageScale";
@@ -6,31 +6,32 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { ImageEditorContext } from "../ImageEditor";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import ChatEditor from "./chatEditor/ChatEditor";
-import { onSurfaceDark, surface } from "../../../sass/_variables";
+import { surface } from "../../../sass/_variables";
 import Chat from "./chat/Chat";
+import BoundsOverlay from "./boundsOverlay/BoundsOverlay";
+import ExportSizeHighlight from "./exportSizeHighlight/ExportSizeHighlight";
 
 export const KonvaCanvasContext = createContext();
-
 
 export default function EditorKonvaCanvas({file}) {
     const { activeFileId } = useContext(ImageEditorContext);
     const { windowWidth, windowHeight } = useWindowSize();
 
-    const stageRef = useRef(null)
-
-    // BACKGROUND IMAGE STATES
+    // Background Image(uploaded file) states
     const [image, setImage] = useState(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
     const [imageScale, setImageScale] = useState(1.00);
 
-    // CHATS STATES
+    // Created Chats states
     const [chats, setChats] = useState([])
     const [selectedChatId, setSelectedChatId] = useState("")
     const [hoverChatId, setHoverChatId] = useState("")
 
-    // CREATING BACKGROUNDIMAGE IN THE CANVAS FROM THE GIVEN FILE
+    const stageRef = useRef(null)
+
+    // Creating background image from the uploaded file
     useEffect(() => {
-        const imageUrl = URL.createObjectURL(file.file)
+        const imageUrl = file.imageUrl
         const image = new Image()
         image.src = imageUrl
 
@@ -42,13 +43,13 @@ export default function EditorKonvaCanvas({file}) {
         setImage(imageObj)
     }, [])
 
-    // VISIBLE CANVAS SIZE
+    // Canvas Size, visible area
     const [canvasSize, setCanvasSize] = useState({
         width: 1200,
         height: 700
     });
 
-    // EXPORT AREA
+    // Canvas Export Size, exportable area
     const [canvasExportSize, setCanvasExportSize] = useState({
         width: 900,
         height: 450,
@@ -59,13 +60,16 @@ export default function EditorKonvaCanvas({file}) {
     // Calculating the visible canvas size depending on the container size when the window is resized
     useEffect(() => {
         const contentSection = document.querySelector('.editorContentWrap');
+
         setCanvasSize({
             width: contentSection.offsetWidth,
             height: contentSection.offsetHeight
         })
+
     }, [windowWidth, windowHeight])
 
-    // Calculating the export area size and the position depending on the visible canvas size
+    // Calculating the export area size and the position depending on the visible canvas size,
+    // always positioned in the middle of the canvas size
     useEffect(() => {
         const { width, height } = canvasExportSize;
 
@@ -78,20 +82,21 @@ export default function EditorKonvaCanvas({file}) {
             x: newCanvasExportX,
             y: newCanvasExportY,
         });
+
     }, [canvasSize]);
 
-
-    // UPDATING IMAGE POSITION WHEN DRAGGING ACROSS THE CANVAS
+    // Calculating the image position when dragging it across the canvas
     const handleDragMoveImage = (e) => {
         const { x, y } = e.target.position();
         setImagePosition({ x, y });
     };
 
-    // EXPORTING THE IMAGE
+    // Handling the image export click
     const handleExport = () => {
         setSelectedChatId("")
         setHoverChatId("")
         
+        // Wait 500ms so the selectedChatId and hoverChatId are fully updated
         setTimeout(() => {
             const dataUrl = stageRef.current?.toDataURL({
                 x: canvasExportSize.x,
@@ -101,11 +106,13 @@ export default function EditorKonvaCanvas({file}) {
                 pixelRatio: 1,
                 quality: 1,
             });
+
+            // Download the image
             downloadUrl(dataUrl, "edited-screenshot.png");
         }, 500);
     };
 
-    // CREATING A LINK TO DOWNLOAD IMAGE
+    // Creating a download link, clicking it and removing it
     const downloadUrl = (url, name) => {
         const link = document.createElement("a");
         link.download = name;
@@ -117,20 +124,32 @@ export default function EditorKonvaCanvas({file}) {
 
     return (
         <div className={`konvaCanvasWrap ${activeFileId === image?.id ? 'konvaCanvasActive' : ''}`}>
+            
             {chats?.map((chat) => (
+                // Render chat editor, a rich text editor, for each chat in the file
                 <ChatEditor
                     key={chat.id}
                     currentChat={chat}
                     setChats={setChats}
                     selectedChatId={selectedChatId}
                     setSelectedChatId={setSelectedChatId}
-                    canvasExportSize={canvasExportSize}
-                    canvasSize={canvasSize}
                     hoverChatId={hoverChatId}
                     setHoverChatId={setHoverChatId}
+                    canvasSize={canvasSize}
                 />
             ))}
-            <CanvasControls handleExport={handleExport} setChats={setChats} canvasExportSize={canvasExportSize} setCanvasExportSize={setCanvasExportSize} canvasSize={canvasSize} setCanvasSize={setCanvasSize} id={file.id} setSelectedChatId={setSelectedChatId}/>
+            {/* Canvas control buttons: Download edited image, delete current image/file,
+                change canvas export size, add chat, add image, add blur etc... */}
+            <CanvasControls 
+                handleExport={handleExport}
+                setChats={setChats} 
+                id={file.id}
+                setSelectedChatId={setSelectedChatId}
+                canvasSize={canvasSize} setCanvasSize={setCanvasSize} 
+                canvasExportSize={canvasExportSize} 
+                setCanvasExportSize={setCanvasExportSize}
+            />
+            {/* Background image/file size scale, controled with range input */}
             <UploadedImageScale
                 image={image?.image}
                 imageScale={imageScale}
@@ -144,9 +163,10 @@ export default function EditorKonvaCanvas({file}) {
                 height={canvasSize.height}
                 style={{maxWidth: "100%", backgroundColor: surface}}
             >
-                <Layer>
-                    <Rect opacity={1} listening={false} fill={onSurfaceDark} x={canvasExportSize.x} y={canvasExportSize.y} width={canvasExportSize.width} height={canvasExportSize.height}/>
-                </Layer>
+                {/* Highlight that indicates the export size boundaries */}
+                <ExportSizeHighlight canvasExportSize={canvasExportSize} />
+
+                {/* Background image/file */}
                 <Layer>
                     {image && (
                         <KonvaImage
@@ -160,27 +180,26 @@ export default function EditorKonvaCanvas({file}) {
                         />
                     )}
                 </Layer>
+                
                 <Layer>
                     {chats?.map((chat) => (
+                        // For each Chat render its chat canvas
                         <Chat
                             key={chat.id}
                             chat={chat}
                             stageRef={stageRef}
-                            canvasExportSize={canvasExportSize}
                             selectedChatId={selectedChatId}
                             setSelectedChatId={setSelectedChatId}
                             hoverChatId={hoverChatId}
                             setHoverChatId={setHoverChatId}
+                            canvasExportSize={canvasExportSize}
                         />
                     ))}
-                    
                 </Layer>
-                <Layer> 
-                    <Rect opacity={0.9} listening={false} fill={surface} x={0} y={0} width={canvasExportSize.x} height={canvasSize.height} />
-                    <Rect opacity={0.9} listening={false} fill={surface} x={canvasSize.width - canvasExportSize.x} y={0} width={canvasExportSize.x} height={canvasSize.height} />
-                    <Rect opacity={0.9} listening={false} fill={surface} x={canvasExportSize.x} y={0} width={canvasExportSize.width} height={canvasExportSize.y} />
-                    <Rect opacity={0.9} listening={false} fill={surface} x={canvasExportSize.x} y={canvasSize.height - canvasExportSize.y} width={canvasExportSize.width} height={canvasExportSize.y} />
-                </Layer>
+
+                {/* Canvas export area border */}
+                <BoundsOverlay canvasSize={canvasSize} canvasExportSize={canvasExportSize} />
+
             </Stage>
         </div>
     )

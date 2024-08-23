@@ -15,7 +15,7 @@ export default function UploadedImageScale({image, imageScale, setImageScale, im
         const newImageWidth = image.width * newScale;
         const newImageHeight = image.height * newScale;
     
-        // Calculate the new image position to keep the center the same
+        // Calculate the new image position to keep the center of the image in the same place after scaling
         const newImageX = imageCenterX - newImageWidth / 2;
         const newImageY = imageCenterY - newImageHeight / 2;
     
@@ -25,6 +25,7 @@ export default function UploadedImageScale({image, imageScale, setImageScale, im
         };
     };
 
+    // Handle scale and position change
     const handleScaleChange = (e) => {
         const newScale = parseFloat(e.target.value);
         const newPosition = calculateNewImagePosition(newScale);
@@ -32,9 +33,10 @@ export default function UploadedImageScale({image, imageScale, setImageScale, im
         setImagePosition(newPosition);
     };
 
+    // Scaling the image with mouse wheel on the input range
     const handleScaleScroll = (e) => {
-        // Define a small step size for finer control
-        const scrollSensitivity = 0.0001; // Adjust sensitivity as needed
+        // Adjust sensitivity as needed, currently sensitivity scrolls for 0.01
+        const scrollSensitivity = 0.0001; 
     
         // Calculate the new scale factor
         const newScale = Math.max(0.01, Math.min(3, imageScale - e.deltaY * scrollSensitivity));
@@ -56,8 +58,6 @@ export default function UploadedImageScale({image, imageScale, setImageScale, im
                 onChange={(e) => handleScaleChange(e)}
                 onWheel={(e) => handleScaleScroll(e)}
             />
-            {/* <span>{imageScale.toFixed(2)}</span> */}
-
         </div>
     )
 }

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import XIcon from '../../../assets/icons/XIcon';
 import './zoomAndSizeSetting.scss';
 
+// TODO - go through this once again and make it more readable
+
 export default function ZoomAndSizeSetting({ setCanvasExportSize, canvasSize, setCanvasSize }) {
     const [width, setWidth] = useState(900);
     const [height, setHeight] = useState(450);
@@ -55,7 +57,7 @@ export default function ZoomAndSizeSetting({ setCanvasExportSize, canvasSize, se
             // Adjust canvasSize if necessary
             const { width: contentSectionWidth, height: contentSectionHeight } = contentSectionSize;
     
-            setCanvasSize(prevState => {
+            setCanvasSize(() => {
                 if (newCanvasExportSize.width > contentSectionWidth || newCanvasExportSize.height > contentSectionHeight) {
                     return {
                         width: Math.max(newCanvasExportSize.width, contentSectionWidth) + 100,

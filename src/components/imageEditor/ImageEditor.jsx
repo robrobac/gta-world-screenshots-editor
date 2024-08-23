@@ -17,7 +17,7 @@ export default function ImageEditor() {
                 const fileObj = {
                     id: uuid(),
                     imageUrl: URL.createObjectURL(file), // Saving this to use in the list of uploaded files.
-                    file // Will use for creating a new image state for each uploaded file, prepared for canvas
+                    file // Will use for creating a new image state for each uploaded file, prepared for canvas use
                 }
                 setUploadedFiles(prev => [...prev, fileObj]);
             })
@@ -40,7 +40,6 @@ export default function ImageEditor() {
             
         } else if (activeFileId === id) {
             setActiveFileId(uploadedFiles[deleteIndex - 1].id);
-            
         }
         const filteredArray = uploadedFiles.filter((file) => file.id !== id);
         setUploadedFiles([...filteredArray]);
@@ -51,7 +50,7 @@ export default function ImageEditor() {
         if (activeFileId == "" && uploadedFiles.length > 0) {
             setActiveFileId(uploadedFiles[0].id)
         }
-    }, [uploadedFiles])
+    }, [activeFileId, uploadedFiles])
 
     return (
         <ImageEditorContext.Provider
