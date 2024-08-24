@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 
 import HomePage from './pages/homePage/HomePage';
-import NewPage from './pages/newPage/NewPage';
 
 
 const router = createBrowserRouter([
@@ -16,10 +15,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <HomePage />,
   },
-  {
-    path: "/newpage",
-    element: <NewPage />,
-  },
+  // {
+  //   path: "/newpage",
+  //   element: <NewPage />,
+  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
