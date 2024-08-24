@@ -4,4 +4,17 @@
     height: $headerHeight;
     background-color: $surface;
     padding: 0 $inSectionPadding;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .copyright {
+        font-size: 14px;
+        color: $onSurface;
+
+        a {
+            color: $accent;
+        }
+    }
 }

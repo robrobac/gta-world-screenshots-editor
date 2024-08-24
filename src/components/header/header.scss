@@ -4,4 +4,13 @@
     height: $headerHeight;
     background-color: $surface;
     padding: 0 $inSectionPadding;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .headerTitle {
+        font-size: 16px;
+        color: $accent;
+    }
 }

@@ -3,7 +3,7 @@ import './header.scss';
 export default function Header() {
     return (
         <header className="headerMain">
-            Header
+            <h1 className='headerTitle'>GTA Roleplay Screenshots Editor</h1>
         </header>
     )
 }
