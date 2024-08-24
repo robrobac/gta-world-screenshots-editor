@@ -15,8 +15,41 @@ import { inSectionPadding } from "../../../../sass/_variables";
 // Quill Editor options
 const toolbarOptions = [  
   [{ 'size': ['small', false, 'large'] }],
-  [{ 'color': ["red", "green", "blue"] }, { 'background': ["red", "green", "blue"] }],
-  ['clean']
+    [
+      {
+        'color': [
+          "#EBEBEB",
+          "#B7B7B7",
+          "#737373",
+          "#B49FCA",
+          "#EABD48",
+          "#53B359",
+          "#E00616",
+          "#3E86D8",
+          "#F5F920",
+          "#E98B29",
+          "#41A59B",
+          "black"
+        ]
+      },
+      {
+        'background': [
+          "#EBEBEB",
+          "#B7B7B7",
+          "#737373",
+          "#B49FCA",
+          "#EABD48",
+          "#53B359",
+          "#E00616",
+          "#3E86D8",
+          "#F5F920",
+          "#E98B29",
+          "#41A59B",
+          "black"
+        ]
+      }
+    ],
+    ['clean']
 ];
 const modules = {toolbar: toolbarOptions}
 const formats = ["size", "background", "color"]
