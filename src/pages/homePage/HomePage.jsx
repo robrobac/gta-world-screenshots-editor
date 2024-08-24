@@ -1,5 +1,5 @@
 import Footer from '../../components/footer/Footer';
-import Header from '../../components/Header/header';
+import Header from '../../components/Header/Header';
 import ImageEditor from '../../components/imageEditor/ImageEditor';
 import './homePage.scss';
 
