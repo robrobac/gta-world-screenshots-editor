@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import HomePage from './pages/homePage/HomePage';
+import ParserPage from './pages/newPage/ParserPage';
 
 
 const router = createBrowserRouter([
@@ -15,10 +16,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <HomePage />,
   },
-  // {
-  //   path: "/newpage",
-  //   element: <NewPage />,
-  // },
+  {
+    path: "/parser",
+    element: <ParserPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
