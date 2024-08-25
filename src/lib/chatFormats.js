@@ -35,3 +35,7 @@ export const chatFormats = [
         fullLine: false,
     },
 ]
+
+export const chatRemove = [
+    {name: "OOC", triggerWords: [/^\(\(.*\)\)$/, "OOC"]}
+]

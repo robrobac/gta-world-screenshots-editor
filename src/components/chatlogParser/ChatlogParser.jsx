@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import { chatFormats } from "../../lib/chatFormats";
+import { chatFormats, chatRemove } from "../../lib/chatFormats";
 
 export default function ChatlogParser() {
     const [textareaValue, setTextareaValue] = useState("");
@@ -17,12 +17,25 @@ export default function ChatlogParser() {
 
     // create paragraph elements from array of lines with timestamps removed in the previous step
     const handleCreateQuillElements = (arr) => {
-        return arr.map((line) => {
-            const lineParagraph = document.createElement("p");
-            lineParagraph.innerHTML = line;
-            return lineParagraph
-        })
-    }
+        return arr
+            // Remove lines that match trigger words from chatRemove array
+            .filter((line) => {
+                // Check if the line matches any of the trigger words
+                return !chatRemove.some(({ triggerWords }) =>
+                    triggerWords.some((trigger) => {
+                        return typeof trigger === "string"
+                            ? line.includes(trigger)  // Check for string match
+                            : trigger.test(line);     // Check for regex match
+                    })
+                );
+            })
+            // Create paragraph elements from the rest of the lines
+            .map((line) => {
+                const lineParagraph = document.createElement("p");
+                lineParagraph.innerHTML = line;
+                return lineParagraph;
+            });
+    };
 
     // add color styles to line elements, the settings are stored in the chatFormats array
     const handleAddStyle = (elements) => {
