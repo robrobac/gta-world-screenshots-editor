@@ -47,37 +47,71 @@ export default function ChatlogParser() {
                 // For each format, go through each word in the triggerWords array
                 for (const word of format.triggerWords) {
 
-                    if (line.innerHTML.includes(word)) { // If the line contains the word, apply the style
+                    // Check if the line contains the word for both string and regex match
+                    const hasMatch = format.triggerWords.some((trigger) => {
+                        return typeof trigger === "string"
+                            ? line.innerHTML.includes(trigger)  // Check for string match
+                            : trigger.test(line.innerHTML);     // Check for regex match
+                    })
+
+                    if (hasMatch) { // If the line contains the word, apply the style
                         
                         if (format.fullLine) {
                             // If the format is a full line, apply the lineColor style to the whole line
-
+                            
                             line.style.color = format.lineColor
                             line.innerHTML = `<span style="color: ${format.lineColor}">${line.innerHTML}</span>`
                         } else {
                             // If the format is not a full line, apply the wordColor style to the word and lineColor to the rest
+                            // but first check if the trigger word is string or regex, matters in replacing the line words into spans
 
-                            const parts = line.innerHTML.split(word);
+                            if (typeof word === "string") {
+                                // handle string case
 
-                            // Map over the parts and style each part accordingly
-                            const styledParts = parts.map((part, index) => {
-                                if (index < parts.length - 1) {
-                                    return `<span style="color: ${format.lineColor}">${part}</span><span style="color: ${format.wordColor}">${word}</span>`;
-                                }
-                                return `<span style="color: ${format.lineColor}">${part}</span>`;
-                            })
+                                const parts = line.innerHTML.split(word);
 
-                            // Join the parts back together
-                            line.innerHTML = styledParts.join("");
+                                // Map over the parts and style each part accordingly
+                                const styledParts = parts.map((part, index) => {
+                                    if (index < parts.length - 1) {
+                                        return `<span style="color: ${format.lineColor}">${part}</span><span style="color: ${format.wordColor}">${word}</span>`;
+                                    }
+                                    return `<span style="color: ${format.lineColor}">${part}</span>`;
+                                })
+
+                                // Join the parts back together
+                                line.innerHTML = styledParts.join("");
+
+                            } else if (word instanceof RegExp) {
+                                // Handle regex case
+
+                                line.innerHTML = line.innerHTML.replace(word, (match) => {
+                                    return `<span style="color: ${format.wordColor}">${match}</span>`;
+                                });
+
+                                line.innerHTML = `<span style="color: ${format.lineColor}">${line.innerHTML}</span>`;
+                            }
+ 
                         }
                     }
-
                 }
             }
             // Return the edited line
             return line;
         })
     };
+
+
+
+
+
+
+    
+
+
+
+
+
+
 
     // Parse the chatlog
     const handleParse = () => {
