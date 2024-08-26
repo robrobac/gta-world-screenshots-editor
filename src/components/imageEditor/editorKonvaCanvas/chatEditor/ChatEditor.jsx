@@ -49,9 +49,24 @@ const toolbarOptions = [
         ]
       }
     ],
-    ['clean']
+    ['clean'],
+    ['redirect']
 ];
-const modules = {toolbar: toolbarOptions}
+
+// Custom handler for the toolbar redirect button
+const handleRedirect = () => {
+  window.open("/parser", "_blank");
+};
+
+const modules = {
+  toolbar: {
+    container: toolbarOptions,
+    handlers: {
+      redirect: handleRedirect, // Attach the custom handler
+    },
+  },
+};
+
 const formats = ["size", "background", "color"]
 
 export default function ChatEditor({ currentChat, setChats, selectedChatId, setSelectedChatId, hoverChatId, setHoverChatId, canvasSize }) {
@@ -60,6 +75,14 @@ export default function ChatEditor({ currentChat, setChats, selectedChatId, setS
   const [chatEditorSize, setChatEditorSize] = useState({ width: 0, height: 0 })
   const [chatEditorBounds, setChatEditorBounds] = useState({top: 0, left: 0, right: 0, bottom: 0})
   const [visible, setVisible] = useState(true)
+
+  // Adding text into custom quill toolbar Button
+  useEffect(() => {
+    const redirectButton = document.querySelector('.ql-redirect');
+    if (redirectButton) {
+      redirectButton.innerHTML = 'Open Chatlog Parser'; // Set the button text
+    }
+  }, []);
 
   // DEBOUNCING THE EDITOR VALUE
   const debouncedValue = useDebounce(value, 200);
