@@ -8,7 +8,7 @@ export default function ParserPage() {
         <>
         <Header />
         <main className='parserPageMain'>
-        <ChatlogParser />
+            <ChatlogParser />
         </main>
         <Footer />
         </>

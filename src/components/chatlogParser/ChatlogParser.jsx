@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import { chatFormats, chatRemove } from "../../lib/chatFormats";
+import './chatlogParser.scss';
+import ButtonAccent from "../buttonAccent/ButtonAccent";
 
 export default function ChatlogParser() {
     const [textareaValue, setTextareaValue] = useState("");
@@ -100,19 +102,6 @@ export default function ChatlogParser() {
         })
     };
 
-
-
-
-
-
-    
-
-
-
-
-
-
-
     // Parse the chatlog
     const handleParse = () => {
         // Clear the editor state
@@ -145,18 +134,33 @@ export default function ChatlogParser() {
     }, [quillEditor])
 
     return (
-        <div>
-            <textarea
-                value={textareaValue}
-                onChange={(e) => setTextareaValue(e.target.value)}
-                className="chatlogTextArea"
-            />
-            <button onClick={handleParse}>Parse</button>
-            <ReactQuill
-                ref={quillRef}
-                className="parsedQuill"
-                readOnly
-            />
+        <div className="chatlogParserWrap">
+
+            <div className="parserSection">
+
+                <p>Paste your chatlog here</p>
+                <textarea
+                    className="chatlogTextArea"
+                    value={textareaValue}
+                    onChange={(e) => setTextareaValue(e.target.value)}
+                />
+
+            </div>
+
+            <ButtonAccent title="Parse chatlog" variant="thumbnailControl" onClick={handleParse} />
+
+            <div className="parserSection">
+                
+                <p>Copy the wanted results and paste it in the screenshot editor</p>
+                <div className="parsedQuillWrap">
+                    <ReactQuill
+                        className="parsedQuill"
+                        ref={quillRef}
+                    />
+                </div>
+
+            </div>
+
         </div>
         
     )

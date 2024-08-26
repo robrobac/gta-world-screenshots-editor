@@ -19,6 +19,10 @@
         color: $onSurface;
         width: 50px;
 
+        // Removing the increase/decrease value arrows for Firefox
+        -moz-appearance: textfield;
+        appearance: textfield;
+
         &:first-child {
             text-align: right;
         }
@@ -32,9 +36,6 @@
             -webkit-appearance: none; 
             margin: 0; 
         }
-        // doing the same for Firefox
-        -moz-appearance: textfield;
-        appearance: textfield;
     }
 
     .sizeSettingForm {
