@@ -3,12 +3,15 @@ import EditorContent from './editorContent/EditorContent';
 import EditorSidebar from './editorSidebar/EditorSidebar';
 import './imageEditor.scss';
 import { v4 as uuid } from 'uuid';
+import FeedbackForm from '../feedbackForm/FeedbackForm';
 
 export const ImageEditorContext = createContext();
 
 export default function ImageEditor() {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [activeFileId, setActiveFileId] = useState("")
+    // TODO
+    const [feedbackFormVisible, setFeedbackFormVisible] = useState(false);
 
     // FILES UPLOAD FUNCTION
     const handleUploadFiles = (e) => {
@@ -60,11 +63,15 @@ export default function ImageEditor() {
                 handleFileSelect,
                 activeFileId,
                 handleFileDelete,
+                // TODO
+                setFeedbackFormVisible
             }}
         >
             <main className='imageEditorWrap'>
                 <EditorContent />
-                <EditorSidebar />
+                <EditorSidebar setFeedbackFormVisible={setFeedbackFormVisible}/>
+                {/* TODO */}
+                {feedbackFormVisible && <FeedbackForm setFeedbackFormVisible={setFeedbackFormVisible}/>}
             </main>
         </ImageEditorContext.Provider>
     )

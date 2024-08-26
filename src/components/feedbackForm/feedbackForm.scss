@@ -1,0 +1,161 @@
+@use '../../sass/' as *;
+
+.feedbackFormWrap {
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 200;
+    background-color: rgba(18, 18, 18, 0.055);
+    backdrop-filter: blur(5px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .feedbackFormContainer {
+        position: relative;
+        background-color: $surface;
+        padding: $inSectionPadding;
+        border-radius: $borderRadiusM;
+
+        display: flex;
+        flex-direction: column;
+        gap: $sectionSpacing * 2;
+        margin: $sectionSpacing;
+        max-width: 600px;
+
+        .closeButton {
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+
+            svg {
+                fill: $onSurface;
+                width: 32px;
+                height: 32px;
+            }
+
+            @include hover {
+                svg {
+                    fill: $accent;
+                }
+            }
+        }
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: $sectionSpacing;
+            
+
+            h2 {
+                text-align: center;
+                color: $accent;
+                font-size: 32px;
+                font-weight: 800;
+                line-height: calc(28px * 1.5);
+            }
+            p {
+                font-size: 14px;
+                line-height: calc(14px * 1.5);
+                color: #ffaa00a4;
+                span {
+                    color: $accent;
+                }
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: $sectionSpacing;
+
+            button {
+                width: 100px;
+            }
+
+            .inputWrap {
+                display: flex;
+                flex-direction: column;
+                border-bottom: 1px solid $accentDarker;
+
+                &:focus-within {
+                    border-bottom: 1px solid $accent;
+
+                    label {
+                        color: $accent;
+                    }
+                }
+
+                label {
+                    color: $accentDarker;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                input, textarea {
+                    background-color: transparent;
+                    border: none;
+                    color: $onSurface;
+                    font-size: 16px;
+                    padding: 5px 5px;
+
+                    &::placeholder {
+                        color: $onSurfaceDisabled;
+                    }
+
+                    &:focus, &:focus-visible {
+                        outline: none;
+                        background-color: #8d5e0005;
+                    }
+                }
+                textarea {
+                    resize: none;
+                    height: 100px;
+                }
+            }
+
+            .formControl {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .dontShowAgain {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    height: fit-content;
+
+                    &:has(input:checked) {
+                        label {
+                            color: $accent;
+                        }
+                    }
+
+                    label {
+                        color: $onSurfaceDark;
+                        cursor: pointer;
+                    }
+                    input {
+                        cursor: pointer;
+                        opacity: 0.4;
+                        width: 16px;
+                        height: 16px;
+                        accent-color: $accent;
+                        background: red !important;
+
+                        &:checked {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -14,7 +14,8 @@ import ExportSizeHighlight from "./exportSizeHighlight/ExportSizeHighlight";
 export const KonvaCanvasContext = createContext();
 
 export default function EditorKonvaCanvas({file}) {
-    const { activeFileId } = useContext(ImageEditorContext);
+    // TODO - feedback form
+    const { activeFileId, setFeedbackFormVisible } = useContext(ImageEditorContext);
     const { windowWidth, windowHeight } = useWindowSize();
 
     // Background Image(uploaded file) states
@@ -110,6 +111,7 @@ export default function EditorKonvaCanvas({file}) {
             // Download the image
             downloadUrl(dataUrl, "edited-screenshot.png");
         }, 500);
+
     };
 
     // Creating a download link, clicking it and removing it
@@ -120,6 +122,21 @@ export default function EditorKonvaCanvas({file}) {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        // TODO Feedback form logic with local storage won't stay after the testing phase
+        if (localStorage.getItem("feedbackSubmittedAndBlocked")) {
+            return
+        } else if (Number(localStorage.getItem("exportCount")) >= 5) {
+            localStorage.setItem("exportCount", 1);
+        } else {
+            localStorage.setItem("exportCount", Number(localStorage.getItem("exportCount")) + 1);
+        }
+
+        if (localStorage.getItem("exportCount") <= 1) {
+            setTimeout(() => {
+                setFeedbackFormVisible(true)
+            }, 2000);
+        }
     };
 
     return (
