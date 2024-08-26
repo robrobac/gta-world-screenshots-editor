@@ -65,6 +65,23 @@ export const chatRemove = [
     }
 ]
 
+export const chatColorsArray = () => {
+    var colors = [];
+
+    chatFormats.forEach(chatFormat => {
+
+        if (!colors.includes(chatFormat.lineColor)) {
+            colors.push(chatFormat.lineColor);
+        }
+
+        if (!colors.includes(chatFormat.wordColor)) {
+            colors.push(chatFormat.wordColor);
+        }
+        
+    })
+    return colors
+}
+
 const testStrings = `
 
 KEEP AND STYLE:

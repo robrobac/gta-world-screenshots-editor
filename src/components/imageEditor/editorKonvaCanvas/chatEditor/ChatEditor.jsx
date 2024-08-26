@@ -10,6 +10,7 @@ import CollapseIcon from "../../../../assets/icons/CollapseIcon";
 import ExpandIcon from "../../../../assets/icons/ExpandIcon";
 import "react-quill/dist/quill.snow.css";
 import { inSectionPadding } from "../../../../sass/_variables";
+import { chatColorsArray } from "../../../../lib/chatFormats";
 
 
 // Quill Editor options
@@ -18,34 +19,12 @@ const toolbarOptions = [
     [
       {
         'color': [
-          "#EBEBEB",
-          "#B7B7B7",
-          "#737373",
-          "#B49FCA",
-          "#EABD48",
-          "#53B359",
-          "#E00616",
-          "#3E86D8",
-          "#F5F920",
-          "#E98B29",
-          "#41A59B",
-          "black"
+          ...chatColorsArray()
         ]
       },
       {
         'background': [
-          "#EBEBEB",
-          "#B7B7B7",
-          "#737373",
-          "#B49FCA",
-          "#EABD48",
-          "#53B359",
-          "#E00616",
-          "#3E86D8",
-          "#F5F920",
-          "#E98B29",
-          "#41A59B",
-          "black"
+          ...chatColorsArray()
         ]
       }
     ],
@@ -75,6 +54,8 @@ export default function ChatEditor({ currentChat, setChats, selectedChatId, setS
   const [chatEditorSize, setChatEditorSize] = useState({ width: 0, height: 0 })
   const [chatEditorBounds, setChatEditorBounds] = useState({top: 0, left: 0, right: 0, bottom: 0})
   const [visible, setVisible] = useState(true)
+
+  console.log([...chatColorsArray()])
 
   // Adding text into custom quill toolbar Button
   useEffect(() => {

@@ -16,22 +16,27 @@ export default function FeedbackForm({setFeedbackFormVisible}) {
     const sendEmail = (e) => {
         e.preventDefault();
 
-        if (isChecked) {
-            localStorage.setItem("feedbackSubmittedAndBlocked", true);
-        }
+        
 
-    // emailjs
-    //   .sendForm('service_779mpxy', 'template_sqb0rsw', form.current, {
-    //     publicKey: '6z87-lgq74fmuK5OF',
-    //   })
-    //   .then(
-    //     () => {
-    //       console.log('SUCCESS!');
-    //     },
-    //     (error) => {
-    //       console.log('FAILED...', error.text);
-    //     },
-    //   );
+        emailjs
+            .sendForm('service_779mpxy', 'template_sqb0rsw', form.current, {
+                publicKey: '6z87-lgq74fmuK5OF',
+            })
+            .then(() => {
+                console.log('SUCCESS!');
+                if (isChecked) {
+                    localStorage.setItem("feedbackSubmittedAndBlocked", true);
+                }
+                setUsername("")
+                setEmail("")
+                setMessage("")
+                setIsChecked(false)
+                setFeedbackFormVisible(false)
+            },
+            (error) => {
+                console.log('FAILED...', error.text);
+            },
+            );
 
         setUsername("")
         setEmail("")
