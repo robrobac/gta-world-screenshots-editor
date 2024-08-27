@@ -3,50 +3,67 @@ import emailjs from '@emailjs/browser';
 import './feedbackForm.scss'
 import ButtonAccent from '../buttonAccent/ButtonAccent';
 import XIcon from '../../assets/icons/XIcon';
+import supabase from '../../config/supabaseClient';
+import { surface } from '../../sass/_variables';
 
 export default function FeedbackForm({setFeedbackFormVisible}) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [isChecked, setIsChecked] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // TODO
     const form = useRef();
 
-    const sendEmail = (e) => {
+    const sendEmail = async (e) => {
         e.preventDefault();
-
-        
-
-        emailjs
-            .sendForm('service_779mpxy', 'template_sqb0rsw', form.current, {
+        setLoading(true)
+    
+        try {
+            await emailjs.sendForm('service_779mpxy', 'template_sqb0rsw', form.current, {
                 publicKey: '6z87-lgq74fmuK5OF',
-            })
-            .then(() => {
-                console.log('SUCCESS!');
-                if (isChecked) {
-                    localStorage.setItem("feedbackSubmittedAndBlocked", true);
-                }
-                setUsername("")
-                setEmail("")
-                setMessage("")
-                setIsChecked(false)
-                setFeedbackFormVisible(false)
-            },
-            (error) => {
-                console.log('FAILED...', error.text);
-            },
-            );
-
-        setUsername("")
-        setEmail("")
-        setMessage("")
-        setIsChecked(false)
-        setFeedbackFormVisible(false)
+            });
+    
+            console.log('SUCCESS!');
+    
+            // TODO
+            await registerFeedback();
+    
+            if (isChecked) {
+                localStorage.setItem("feedbackSubmittedAndBlocked", true);
+            }
+    
+            setUsername("");
+            setEmail("");
+            setMessage("");
+            setIsChecked(false);
+            setFeedbackFormVisible(false);
+            setLoading(false);
+    
+        } catch (error) {
+            console.log('FAILED...', error);
+            setLoading(false);
+        }
     };
 
     const handleClose = () => {
         setFeedbackFormVisible(false)
+    }
+
+    // TODO
+    const registerFeedback = async () => {
+        const {data, error} = await supabase
+            .from('feedbacks')
+            .insert([{username, email, message}])
+            .select()
+
+            if (error) {
+                console.log(error)
+            }
+            if (data) {
+                console.log(data)
+            }
     }
 
     return (
@@ -77,7 +94,9 @@ export default function FeedbackForm({setFeedbackFormVisible}) {
                     <div className="formControl">
                         <ButtonAccent type="submit"
                             title="Send"
-                        />
+                        >
+                            {loading && <img  style={{backgroundColor: surface, borderRadius: "100%", padding: "5px"}} src="/loading.gif" alt="loading" />}
+                        </ButtonAccent>
                         <div className="dontShowAgain">
                             <input type="checkbox" name="dontShowAgain" id="dontShowAgain" checked={isChecked} onChange={() => setIsChecked(!isChecked)}/>
                             <label htmlFor="dontShowAgain">Don't show again(after submitting)</label>

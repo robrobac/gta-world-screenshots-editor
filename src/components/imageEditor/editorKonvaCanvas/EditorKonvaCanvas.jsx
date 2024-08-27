@@ -10,6 +10,7 @@ import { surface } from "../../../sass/_variables";
 import Chat from "./chat/Chat";
 import BoundsOverlay from "./boundsOverlay/BoundsOverlay";
 import ExportSizeHighlight from "./exportSizeHighlight/ExportSizeHighlight";
+import supabase from '../../../config/supabaseClient';
 
 export const KonvaCanvasContext = createContext();
 
@@ -93,7 +94,7 @@ export default function EditorKonvaCanvas({file}) {
     };
 
     // Handling the image export click
-    const handleExport = () => {
+    const handleExport = async () => {
         setSelectedChatId("")
         setHoverChatId("")
         
@@ -112,6 +113,7 @@ export default function EditorKonvaCanvas({file}) {
             downloadUrl(dataUrl, "edited-screenshot.png");
         }, 500);
 
+        await registerExport()
     };
 
     // Creating a download link, clicking it and removing it
@@ -138,6 +140,20 @@ export default function EditorKonvaCanvas({file}) {
             }, 2000);
         }
     };
+
+    // TODO
+    const registerExport = async () => {
+        const {data, error} = await supabase
+            .from('exportCount')
+            .insert([{}])
+
+            if (error) {
+                console.log(error)
+            }
+            if (data) {
+                console.log(data)
+            }
+    }
 
     return (
         <div className={`konvaCanvasWrap ${activeFileId === image?.id ? 'konvaCanvasActive' : ''}`}>

@@ -6,7 +6,7 @@ import ButtonAccent from "../buttonAccent/ButtonAccent";
 
 export default function ChatlogParser() {
     const [textareaValue, setTextareaValue] = useState("");
-    const [quillEditor, setQuillEditor] = useState("<p>aaaa</p>");
+    const [quillEditor, setQuillEditor] = useState("");
 
     const quillRef = useRef(null);
 
@@ -157,6 +157,7 @@ export default function ChatlogParser() {
                         className="parsedQuill"
                         ref={quillRef}
                     />
+                    <button>dADdada</button>
                 </div>
 
             </div>
