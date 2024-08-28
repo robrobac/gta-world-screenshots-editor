@@ -80,7 +80,8 @@ export default function ChatEditor({ currentChat, setChats, selectedChatId, setS
       html2canvas(editor, {
         logging: false,
         backgroundColor: "transparent",
-        willReadFrequently: true
+        willReadFrequently: true,
+        scale: 2,
       }).then((canvas) => {
 
         setChats((prevChats) => {

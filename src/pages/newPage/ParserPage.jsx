@@ -8,19 +8,19 @@ import supabase from '../../config/supabaseClient';
 export default function ParserPage() {
 
     // TODO
-    useEffect(() => {
-        const registerVisit = async () => {
-            const {error} = await supabase
-                .from('visitCount')
-                .insert([{page: "parser"}])
+    // useEffect(() => {
+    //     const registerVisit = async () => {
+    //         const {error} = await supabase
+    //             .from('visitCount')
+    //             .insert([{page: "parser"}])
 
-                if (error) {
-                    console.log(error)
-                }
-                console.log("test")
-        }
-        registerVisit()
-    }, [])
+    //             if (error) {
+    //                 console.log(error)
+    //             }
+    //             console.log("test")
+    //     }
+    //     registerVisit()
+    // }, [])
 
     return (
         <>
