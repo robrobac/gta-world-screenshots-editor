@@ -63,9 +63,6 @@ export const chatFormats = [
         ],
         fullLine: false,
     },
-
-
-
 ]
 
 export const chatRemove = [
@@ -106,6 +103,8 @@ KEEP AND STYLE:
 [17:22:43] [INFO]: [04/NOV/2021] *SIGN*: Right lane vans and cars only - height barrier ahead.
 [17:22:43] You paid $2,000 to Mask_84E53_6 (15/AUG/2024 - 23:25:44).
 [17:22:43] Mask_84E53_6 paid you $3,000 (15/AUG/2024 - 23:30:45).
+[23:14:20] Julian Volesky says (cellphone): Yow.
+[23:14:29] Nedeljko Ljubic says (cellphone): Hello, do you still need a ride, taxi driver on the phone.
 
 REMOVE
 [19:40:30] (( PM from (308) Jasmine Wong: good game ^^ ))
