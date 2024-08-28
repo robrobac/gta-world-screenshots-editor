@@ -26,7 +26,21 @@ export const chatFormats = [
         wordColor: "#B49FCA",
         triggerWords: [
             /^(>|&gt)/, // starts with >
-            /^\*/], // starts with *
+            /^\*/, // starts with *
+        ], 
+        fullLine: true,
+    },
+
+    // You paid $2,000 to Mask_84E53_6 (15/AUG/2024 - 23:25:44).
+    // Mask_84E53_6 paid you $3,000 (15/AUG/2024 - 23:30:45).
+    {
+        name: "cash payments",
+        lineColor: "#53B359",
+        wordColor: "#53B359",
+        triggerWords: [
+            /You paid \$\d{1,3}(?:,\d{3})*(?:\.\d{2})? to Mask_\w+_\d+ \(\d{2}\/[A-Z]{3}\/\d{4} - \d{2}:\d{2}:\d{2}\)/, // You paid
+            /[\w\s]+ paid you \$[\d,]+ \(\d{2}\/[A-Z]{3}\/\d{4} - \d{2}:\d{2}:\d{2}\)\./, // paid you
+            ],
         fullLine: true,
     },
 
@@ -90,6 +104,8 @@ KEEP AND STYLE:
 [17:22:25] Nedeljko Ljubic says: How's going?
 [17:22:43] Tom Kennedy says [low]: Going well, really.
 [17:22:43] [INFO]: [04/NOV/2021] *SIGN*: Right lane vans and cars only - height barrier ahead.
+[17:22:43] You paid $2,000 to Mask_84E53_6 (15/AUG/2024 - 23:25:44).
+[17:22:43] Mask_84E53_6 paid you $3,000 (15/AUG/2024 - 23:30:45).
 
 REMOVE
 [19:40:30] (( PM from (308) Jasmine Wong: good game ^^ ))

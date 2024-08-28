@@ -157,7 +157,6 @@ export default function ChatlogParser() {
                         className="parsedQuill"
                         ref={quillRef}
                     />
-                    <button>dADdada</button>
                 </div>
 
             </div>
