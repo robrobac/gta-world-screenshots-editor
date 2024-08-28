@@ -76,6 +76,19 @@
             outline: none;
         }
     }
+    .ingameName {
+        border: 2px dashed $accentDarker;
+        padding: $inSectionPadding;
+        border-radius: $borderRadiusS;
+        background-color: $surface;
+        font-size: 16px;
+        line-height: 20px;
+        color: rgb(219, 219, 219);
+        &:focus, &:focus-visible {
+            border: 2px dashed $accent;
+            outline: none;
+        }
+    }
     .parsedQuillWrap {
         &:focus-within {
             border: 2px dashed $accent;
@@ -113,112 +126,3 @@
 
     
 }
-
-
-
-// .chatlogParserWrap {
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: center;
-//     align-items: center;
-//     gap: $sectionSpacing;
-//     padding: $sectionSpacing;
-//     height: 100%;
-
-//     @media (max-width: 1280px) {
-//         flex-direction: column;
-//     }
-
-//     .buttonAccent {
-//         height: max-content;
-//     }
-
-//     .parserSection {
-//         background-color: $surface;
-//         height: 100%;
-//         padding: $inSectionPadding;
-//         border-radius: $borderRadiusL;
-//         flex: 1;
-//         display: flex;
-//         flex-direction: column;
-//         gap: $sectionSpacing;
-
-//         @media (max-width: 1280px) {
-//             width: 100%;
-            
-//         }
-//     }
-
-//     .parserSection:last-child {
-//         // flex: 2;
-//         flex: 1;
-//     }
-
-//     .chatlogTextArea {
-//         height: 100%;
-//         padding: 12px 15px;
-//         flex: 1;
-//         border: 2px dashed $accentDarker;
-//         border-radius: $borderRadiusM;
-//         background-color: $surface;
-//         font-size: 16px;
-//         color: $onSurface;
-
-//         &:focus, &:focus-visible {
-//             outline: none;
-//             border: 2px dashed $accent;
-//         }
-//     }
-
-//     .parsedQuillWrap {
-//         flex: 1;
-//         overflow: auto;
-
-//         border-radius: $borderRadiusM;
-//         border: 2px dashed $accentDarker;
-//         &:focus-within {
-//             outline: none;
-//             border: 2px dashed $accent;
-//         }
-//         .parsedQuill {
-        
-//             p {
-//                 width: fit-content;
-//                 @include quillFontStroke;
-//                 @include quillFontStyle;
-//                 font-size: 16px;
-//             }
-    
-//             .ql-toolbar {
-//                 display: none;
-//             }
-//             .ql-container.ql-snow {
-//                 border-top: unset;
-//                 border: unset;                    
-//             }
-//         }
-//     }
-// }
-
-// .chatlogTextArea, .parsedQuillWrap {
-//     flex: 1;
-//     &::-webkit-scrollbar {
-//         height: 6px;
-//         width: 6px;
-//     }
-//     &::-webkit-scrollbar-track {
-//         border-radius: 20px;
-//         background-color: none;
-//     }
-//     &::-webkit-scrollbar-thumb {
-//         border-radius: 20px;
-//         background-color: $accent;
-//         cursor: s-resize;
-//     }
-//     &::-webkit-scrollbar-thumb:hover {
-//         background-color: $accentHover;
-//     }
-//     &::-webkit-scrollbar-thumb:active {
-//         background-color: $accentHover;
-//     }
-// }

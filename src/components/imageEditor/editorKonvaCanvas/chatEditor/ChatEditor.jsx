@@ -59,11 +59,13 @@ export default function ChatEditor({ currentChat, setChats, selectedChatId, setS
 
   // Adding text into custom quill toolbar Button
   useEffect(() => {
-    const redirectButton = document.querySelector('.ql-redirect');
+    const redirectButton = document.querySelectorAll('.ql-redirect');
     if (redirectButton) {
-      redirectButton.innerHTML = 'Open Chatlog Parser'; // Set the button text
+      redirectButton.forEach((button) => {
+        button.innerHTML = 'Open Chatlog Parser';
+      })
     }
-  }, []);
+  }, [currentChat]);
 
   // DEBOUNCING THE EDITOR VALUE
   const debouncedValue = useDebounce(value, 200);

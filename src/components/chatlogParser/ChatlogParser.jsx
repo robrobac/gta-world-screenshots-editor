@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import { chatFormats, chatRemove } from "../../lib/chatFormats";
+import { getChatFormats, chatRemove } from "../../lib/chatFormats";
 import './chatlogParser.scss';
 import ButtonAccent from "../buttonAccent/ButtonAccent";
 
 export default function ChatlogParser() {
     const [textareaValue, setTextareaValue] = useState("");
     const [quillEditor, setQuillEditor] = useState("");
+    const [ingameName, setIngameName] = useState("");
 
     const quillRef = useRef(null);
 
@@ -41,6 +42,7 @@ export default function ChatlogParser() {
 
     // add color styles to line elements, the settings are stored in the chatFormats array
     const handleAddStyle = (elements) => {
+        const chatFormats = getChatFormats(ingameName)
         // Return the edited lines array
         return elements.map((line) => {
             
@@ -138,12 +140,15 @@ export default function ChatlogParser() {
 
             <div className="parserSection">
 
-                <p>Paste your chatlog here</p>
+                <p>Paste your chatlog and click PARSE.</p>
                 <textarea
                     className="chatlogTextArea"
                     value={textareaValue}
                     onChange={(e) => setTextareaValue(e.target.value)}
+                    placeholder="Paste your chatlog here"
                 />
+                <p>In case you need cellphone chats parsed, insert your Ingame Name below in order to correctly color the lines you send and you receive during a phone call</p>
+                <input placeholder="Your Ingame Name, John Doe for example" className="ingameName" type="text" value={ingameName} onChange={(e) => setIngameName(e.target.value)} />
 
             </div>
 
