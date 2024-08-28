@@ -16,8 +16,8 @@ export default function Chat({chat, stageRef, selectedChatId, setSelectedChatId,
     useEffect(() => {
         if (chat.chatCanvas) {
             setSize({
-                width: chat.chatCanvas.width,
-                height: chat.chatCanvas.height
+                width: chat.chatCanvas.width / 2,
+                height: chat.chatCanvas.height / 2
             })
         }
     }, [chat])
