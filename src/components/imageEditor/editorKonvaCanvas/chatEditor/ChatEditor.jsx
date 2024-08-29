@@ -19,12 +19,16 @@ const toolbarOptions = [
     [
       {
         'color': [
-          ...chatColorsArray()
+          ...chatColorsArray(),
+          "black",
+          "transparent"
         ]
       },
       {
         'background': [
-          ...chatColorsArray()
+          ...chatColorsArray(),
+          "black",
+          "transparent"
         ]
       }
     ],

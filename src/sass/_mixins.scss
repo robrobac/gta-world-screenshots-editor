@@ -29,3 +29,7 @@
     rgb(0, 0, 0) 1.440255px -0.419122px 0px,
     rgb(0, 0, 0) 0px 0px 4px;
 }
+@mixin quillTransparentFontStroke {
+    text-shadow: 
+    rgba(255, 255, 255, 0.15) 0px 0px 0px, 
+}

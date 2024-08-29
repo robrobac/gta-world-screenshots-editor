@@ -139,6 +139,30 @@
         p {
             width: fit-content;
             @include quillFontStroke;
+
+            span[style*="color: transparent"] {
+                @include quillTransparentFontStroke;
+            }
+        }
+
+        .ql-picker-item[data-value="transparent"] {
+            width: 16px;
+            height: 16px;
+            position: relative;
+            border: 1px solid $surface; /* Ensure $surface is defined or replace it with a valid color */
+            background-color: white !important;
+
+            &::before {
+              content: "";
+              position: absolute;
+              bottom: -1px;
+              left: 1px;
+              width: 20px;
+              height: 2px;
+              background-color: red;
+              transform: rotate(-45deg);
+              transform-origin: bottom left;
+            }
         }
     
     }
