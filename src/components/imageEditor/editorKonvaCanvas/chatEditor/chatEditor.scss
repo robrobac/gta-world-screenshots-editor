@@ -349,7 +349,10 @@
 }
 
 // CUSTOM FONT SIZES
-
+.ql-snow .ql-editor p {
+    font-weight: 600 !important;
+    letter-spacing: 0.75px !important;
+}
 // Default
 .ql-snow .ql-picker.ql-size .ql-picker-label:not([data-value])::before,
 .ql-snow .ql-picker.ql-size .ql-picker-item:not([data-value])::before {
@@ -360,6 +363,7 @@
 .ql-snow .ql-editor p:not(:empty) {
     font-size: 16px;
     line-height: 18px;
+    
   }
 
 // other sizes
