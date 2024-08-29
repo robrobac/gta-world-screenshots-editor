@@ -4,8 +4,8 @@ export const getChatFormats = (name) => {
         // [17:22:43] Tom Kennedy says [low]: Going well, really.
         {
             name: "chat-low",
-            lineColor: "#B7B7B7",
-            wordColor: "#B7B7B7",
+            lineColor: "#979797",
+            wordColor: "#979797",
             triggerWords: ["says [low]:"],
             fullLine: true,
         },
@@ -13,9 +13,18 @@ export const getChatFormats = (name) => {
         // [17:22:25] Nedeljko Ljubic says: How's going?
         {
             name: "chat-normal",
+            lineColor: "#CACACA",
+            wordColor: "#CACACA",
+            triggerWords: ["says:"],
+            fullLine: true,
+        },
+
+        // [23:14:29] Nedeljko Ljubic shouts: Heeeey, STOP IT!
+        {
+            name: "chat-shout",
             lineColor: "#EBEBEB",
             wordColor: "#EBEBEB",
-            triggerWords: ["says:"],
+            triggerWords: ["shouts:"],
             fullLine: true,
         },
 
@@ -31,8 +40,8 @@ export const getChatFormats = (name) => {
         // [23:14:29] Nedeljko Ljubic says (cellphone): (your character)
         {
             name: "chat-cellphone",
-            lineColor: "#EBEBEB",
-            wordColor: "#EBEBEB",
+            lineColor: "#CACACA",
+            wordColor: "#CACACA",
             triggerWords: [`${name} says (cellphone):`],
             fullLine: true,
         },
@@ -71,6 +80,39 @@ export const getChatFormats = (name) => {
                 ],
             fullLine: true,
         },
+
+        // [23:14:29] You took 1 Smoking Pipe from the vehicle.
+        {
+            name: "item taking from vehicle",
+            lineColor: "#E3A31F",
+            wordColor: "#E3A31F",
+            triggerWords: [
+                /^You took\s+\d+\s+.*\s+from/, // has You took whatever from
+                ],
+            fullLine: true,
+        },
+
+        // [23:14:29] Info: You took Marijuana (1) from the Zipbag.
+        {
+            name: "item taking from storage",
+            lineColor: "#EBEBEB",
+            wordColor: "#E3A31F",
+            triggerWords: [
+                /^Info:(?=\sYou took\s+.*\s+\(\d+\)\s+from)/ // has Info: followed with You took whatever (number) from
+            ],
+            fullLine: false,
+        },
+
+        // [23:14:29] You've just taken Marijuana! You will feel the effects of the drug soon.
+        {
+            name: "Drug taking",
+            lineColor: "#EBEBEB",
+            wordColor: "#53B359",
+            triggerWords: [
+                /(?<=You've just taken\s)(\w+)/ // has Word after You've just taken
+            ],
+            fullLine: false,
+        },
     
         // [17:22:43] [INFO]: [04/NOV/2021] *SIGN*: Right lane vans and cars only - height barrier ahead.
         {
@@ -97,6 +139,17 @@ export const getChatFormats = (name) => {
             wordColor: "#348FE2",
             triggerWords: [
                 "[Character kill]" // has [Character kill]
+            ],
+            fullLine: false,
+        },
+
+        // [23:14:29] You have shown John Doe (M) your Smoking Pipe.
+        {
+            name: "Item showing",
+            lineColor: "#EBEBEB",
+            wordColor: "#348FE2",
+            triggerWords: [
+                /^You have shown\s+([A-Za-z' ]+)(\s+\(M\))?\s+your\s+/ // has You have shown John Doe (M) your
             ],
             fullLine: false,
         },
@@ -148,7 +201,12 @@ KEEP AND STYLE:
 [23:14:20] Julian Volesky says (cellphone): Yow.
 [23:14:29] Nedeljko Ljubic says (cellphone): Hello, do you still need a ride, taxi driver on the phone.
 [23:14:29] Nedeljko Ljubic says whispers: Psst, hey.
+[23:14:29] Nedeljko Ljubic shouts: Heeeey, STOP IT!
 [23:14:29] [Character kill] Nedeljko Ljubic has been killed.
+[23:14:29] You have shown John Doe (M) your Smoking Pipe.
+[23:14:29] You've just taken Marijuana! You will feel the effects of the drug soon.
+[23:14:29] You took 1 Smoking Pipe from the vehicle.
+[23:14:29] Info: You took Marijuana (1) from the Zipbag.
 
 REMOVE
 [19:40:30] (( PM from (308) Jasmine Wong: good game ^^ ))
