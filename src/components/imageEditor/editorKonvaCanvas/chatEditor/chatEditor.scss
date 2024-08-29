@@ -346,37 +346,70 @@
             padding: 10px;
         }
     }
-    
-    .ql-editor {
-
-        p {
-            line-height: unset;
-        }
-
-        p:has(span.ql-size-small) {
-            font-size: 14px !important;
-            line-height: 18px !important;
-        }
-        p:not(:empty) {
-            font-size: 16px !important;
-            line-height: 20px !important;
-        }
-        p:has(span.ql-size-large) {
-            font-size: 18px !important;
-            line-height: 22px !important;
-        }
-
-        p {
-            span.ql-size-small {
-                font-size: inherit;
-                line-height: inherit;
-            }
-
-            span.ql-size-large {
-                font-size: inherit;
-                line-height: inherit;
-            }
-        }
-        
-    }
 }
+
+// CUSTOM FONT SIZES
+
+// Default
+.ql-snow .ql-picker.ql-size .ql-picker-label:not([data-value])::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item:not([data-value])::before {
+  content: '16px';
+  font-size: 16px;
+  
+}
+.ql-snow .ql-editor p:not(:empty) {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+// other sizes
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before {
+  content: '12px';
+  font-size: 12px;
+}
+.ql-snow .ql-editor p:has(.ql-size-12px),
+.ql-snow .ql-editor .ql-size-12px {
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before {
+  content: '14px';
+  font-size: 14px;
+}
+.ql-snow .ql-editor p:has(.ql-size-14px),
+.ql-snow .ql-editor .ql-size-14px {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
+  content: '18px';
+  font-size: 18px;
+}
+.ql-snow .ql-editor p:has(.ql-size-18px),
+.ql-snow .ql-editor .ql-size-18px {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before {
+  content: '20px';
+  font-size: 20px;
+}
+.ql-snow .ql-editor p:has(.ql-size-20px),
+.ql-snow .ql-editor .ql-size-20px {
+  font-size: 20px;
+  line-height: 22px;
+}
+
+
+
+
+
+
+
