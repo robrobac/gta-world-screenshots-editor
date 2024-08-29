@@ -20,7 +20,6 @@
     }
 
     .parserSection {
-        flex: 1;
         background-color: $surface;
         padding: $inSectionPadding;
         border-radius: $borderRadiusM;
@@ -34,6 +33,13 @@
         @media (min-width: 1280px) {
             height: 100%;
         }
+    }
+
+    .parserSection:first-child {
+        flex: 1;
+    }
+    .parserSection:last-child {
+        flex: 2;
     }
 
     .chatlogTextArea, .parsedQuillWrap {
@@ -107,7 +113,10 @@
                 @include quillFontStroke;
                 @include quillFontStyle;
                 font-size: 16px;
-                line-height: 20px;
+                line-height: 18px;
+                font-weight: 600 !important;
+                letter-spacing: 0.75px !important;
+                color: $onSurfaceDark;
             }
 
             .ql-toolbar.ql-snow {
