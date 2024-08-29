@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Draggable from "react-draggable";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import './chatEditor.scss'
 import DragIndicatorIcon from "../../../../assets/icons/DragIndicatorIcon";
 import useDebounce from "../../../../hooks/useDebounce";
@@ -12,19 +12,27 @@ import "react-quill/dist/quill.snow.css";
 import { inSectionPadding } from "../../../../sass/_variables";
 import { chatColorsArray } from "../../../../lib/chatFormats";
 
+// Register custom font sizes
+const Size = Quill.import('formats/size');
+Size.whitelist = ['12px', '14px', false, '18px', '20px'];
+Quill.register(Size, true);
 
 // Quill Editor options
 const toolbarOptions = [  
-  [{ 'size': ['small', false, 'large'] }],
+  [{ 'size': ['12px', '14px', false, '18px', '20px'] }],
     [
       {
         'color': [
-          ...chatColorsArray()
+          ...chatColorsArray(),
+          "black",
+          "transparent"
         ]
       },
       {
         'background': [
-          ...chatColorsArray()
+          ...chatColorsArray(),
+          "black",
+          "transparent"
         ]
       }
     ],
