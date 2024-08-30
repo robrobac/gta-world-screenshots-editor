@@ -101,7 +101,6 @@ export default function Chat({chat, stageRef, selectedChatId, setSelectedChatId,
 
             {/* Chat canvas image */}
             <KonvaImage
-                key={chat.id}
                 id={`chat-${chat.id}`}
                 ref={chatRef}
                 image={chat.chatCanvas}

@@ -9,7 +9,7 @@ import { ImageEditorContext } from '../../ImageEditor';
 import DeleteIcon from '../../../../assets/icons/DeleteIcon';
 import ZoomAndSizeSetting from '../../zoomAndSizeSetting/ZoomAndSizeSetting';
 
-export default function CanvasControls({handleExport, setChats, id, setSelectedChatId, canvasSize, setCanvasSize, setCanvasExportSize }) {
+export default function CanvasControls({handleExport, setChats, id, setSelectedChatId, canvasSize, setCanvasSize, setCanvasExportSize, setImageCropperVisible }) {
   const { handleFileDelete } = useContext(ImageEditorContext);
 
   // Create a new chat with sample text
@@ -52,7 +52,7 @@ export default function CanvasControls({handleExport, setChats, id, setSelectedC
             <TextIcon />
         </ButtonAccent>
         {/* Add image button */}
-        <ButtonAccent title="Add Image" disabled={true} rounded={true} variant="canvasControl">
+        <ButtonAccent title="Add Image" outlined={true} onClick={() => setImageCropperVisible(true)} rounded={true} variant="canvasControl">
             <ImageIcon />
         </ButtonAccent>
         {/* Add blur button */}

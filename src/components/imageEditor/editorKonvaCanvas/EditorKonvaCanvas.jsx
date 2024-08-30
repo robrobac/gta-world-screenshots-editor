@@ -11,6 +11,8 @@ import Chat from "./chat/Chat";
 import BoundsOverlay from "./boundsOverlay/BoundsOverlay";
 import ExportSizeHighlight from "./exportSizeHighlight/ExportSizeHighlight";
 import supabase from '../../../config/supabaseClient';
+import ImageCropper from "./ImageCropper/ImageCropper";
+import CroppedImage from "./croppedImage/CroppedImage";
 
 export const KonvaCanvasContext = createContext();
 
@@ -29,6 +31,12 @@ export default function EditorKonvaCanvas({file}) {
     const [selectedChatId, setSelectedChatId] = useState("")
     const [hoverChatId, setHoverChatId] = useState("")
 
+    // Inserted Images States
+    const [insertedImages, setInsertedImages] = useState([])
+    const [selectedImageId, setSelectedImageId] = useState("")
+    const [hoverImageId, setHoverImageId] = useState("")
+    const [imageCropperVisible, setImageCropperVisible] = useState(false)
+
     const stageRef = useRef(null)
 
     // Creating background image from the uploaded file
@@ -43,7 +51,7 @@ export default function EditorKonvaCanvas({file}) {
         }
 
         setImage(imageObj)
-    }, [])
+    }, [file])
 
     // Canvas Size, visible area
     const [canvasSize, setCanvasSize] = useState({
@@ -97,6 +105,8 @@ export default function EditorKonvaCanvas({file}) {
     const handleExport = async () => {
         setSelectedChatId("")
         setHoverChatId("")
+        setSelectedImageId("")
+        setHoverImageId("")
         
         // Wait 500ms so the selectedChatId and hoverChatId are fully updated
         setTimeout(() => {
@@ -157,6 +167,10 @@ export default function EditorKonvaCanvas({file}) {
 
     return (
         <div className={`konvaCanvasWrap ${activeFileId === image?.id ? 'konvaCanvasActive' : ''}`}>
+
+            {imageCropperVisible &&
+                <ImageCropper setImageCropperVisible={setImageCropperVisible} setInsertedImages={setInsertedImages} setSelectedImageId={setSelectedImageId}/>
+            }
             
             {chats?.map((chat) => (
                 // Render chat editor, a rich text editor, for each chat in the file
@@ -181,6 +195,7 @@ export default function EditorKonvaCanvas({file}) {
                 canvasSize={canvasSize} setCanvasSize={setCanvasSize} 
                 canvasExportSize={canvasExportSize} 
                 setCanvasExportSize={setCanvasExportSize}
+                setImageCropperVisible={setImageCropperVisible}
             />
             {/* Background image/file size scale, controled with range input */}
             <UploadedImageScale
@@ -213,6 +228,24 @@ export default function EditorKonvaCanvas({file}) {
                         />
                     )}
                 </Layer>
+
+                <Layer>
+                    {insertedImages?.map((insertedImage) => (
+                        // For each inserted image render the image
+                        <CroppedImage
+                            key={insertedImage.id}
+                            image={insertedImage}
+                            insertedImages={insertedImages}
+                            setInsertedImages={setInsertedImages}
+                            stageRef={stageRef}
+                            selectedImageId={selectedImageId}
+                            setSelectedImageId={setSelectedImageId}
+                            canvasExportSize={canvasExportSize}
+                            hoverImageId={hoverImageId}
+                            setHoverImageId={setHoverImageId}
+                        />
+                    ))}
+                </Layer>
                 
                 <Layer>
                     {chats?.map((chat) => (
@@ -234,6 +267,7 @@ export default function EditorKonvaCanvas({file}) {
                 <BoundsOverlay canvasSize={canvasSize} canvasExportSize={canvasExportSize} />
 
             </Stage>
+
         </div>
     )
 }

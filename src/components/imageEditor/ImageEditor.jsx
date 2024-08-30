@@ -27,6 +27,20 @@ export default function ImageEditor() {
         }
     }
 
+    // REPLACE FILE FUNCTION
+    const handleReplaceFile = (id, newFile) => {
+        const updatedFiles = uploadedFiles.map(file => 
+            file.id === id
+                ? {
+                    ...file,
+                    imageUrl: URL.createObjectURL(newFile), // Update imageUrl for preview
+                    file: newFile // Replace the file
+                }
+                : file
+        );
+        setUploadedFiles(updatedFiles);
+    }
+
     // SELECTING FILE FUNCTION
     const handleFileSelect = (id) => {
         setActiveFileId(id);
@@ -63,13 +77,14 @@ export default function ImageEditor() {
                 handleFileSelect,
                 activeFileId,
                 handleFileDelete,
+                handleReplaceFile,
                 // TODO
                 setFeedbackFormVisible
             }}
         >
             <main className='imageEditorWrap'>
                 <EditorContent />
-                <EditorSidebar setFeedbackFormVisible={setFeedbackFormVisible}/>
+                <EditorSidebar setFeedbackFormVisible={setFeedbackFormVisible} uploadedFiles={uploadedFiles}/>
                 {/* TODO */}
                 {feedbackFormVisible && <FeedbackForm setFeedbackFormVisible={setFeedbackFormVisible}/>}
             </main>
