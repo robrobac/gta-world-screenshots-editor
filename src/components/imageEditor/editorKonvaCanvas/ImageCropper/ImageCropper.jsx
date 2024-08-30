@@ -77,7 +77,7 @@ export default function ImageCropper({setImageCropperVisible, setInsertedImages,
         // size the image back down if you want to download/upload and be
         // true to the images natural size.
         const pixelRatio = 2;
-        console.log(window.devicePixelRatio)
+        // console.log(window.devicePixelRatio)
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
       
@@ -125,7 +125,7 @@ export default function ImageCropper({setImageCropperVisible, setInsertedImages,
                         <ReactCrop
                             crop={crop}
                             onChange={(percentCrop) => setCrop(percentCrop)}
-                            onComplete={(e) => console.log(e)}
+                            // onComplete={(e) => console.log(e)}
                             aspect={ASPECT_RATIO}
                             minWidth={MIN_DIMENSION}
                         >
