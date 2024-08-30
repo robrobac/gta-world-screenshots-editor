@@ -114,7 +114,7 @@ export default function ImageCropper({setImageCropperVisible, setInsertedImages,
         <div className='imageCropperWrap'>
             <div className="imageCropperContainer">
                 <ButtonAccent
-                    title="Upload Image"
+                    title={`${imgSrc ? "Replace Image" : "Upload Image"}`}
                     fullWidth={true} onClick={() => uploadInputRef.current.click()}
                 >
                     <PlusIcon/>
