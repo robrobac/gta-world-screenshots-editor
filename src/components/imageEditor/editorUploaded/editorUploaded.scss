@@ -1,55 +1,85 @@
 @use '../../../sass/' as *;
 
-.editorUploadedSection {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    overflow: auto;
+.uploadedThumbnail {
+    position: relative;
+    padding: 5px;
 
-    height: 100%;
-    max-height: 100%;
+    border: 2px dashed $surface;
+    border-radius: $borderRadiusM;
 
-    padding: $inSectionPadding;
-    
+    cursor: pointer;
 
-    .uploadedThumbnail {
-        position: relative;
-        padding: 5px;
+    &:has(.activeThumbnail) {
+        border: 2px dashed $accent;
+    }
 
-        border: 2px dashed $surface;
-        border-radius: $borderRadiusM;
-
-        cursor: pointer;
-
+    @include hover {
+        border: 2px dashed $accentDarker;
         &:has(.activeThumbnail) {
             border: 2px dashed $accent;
         }
+    }
 
-        @include hover {
-            border: 2px dashed $accentDarker;
-            &:has(.activeThumbnail) {
-                border: 2px dashed $accent;
-            }
-        }
-
-        .thumbnailImage {
-            display: block;
-            width: 100%;
-            height: auto;
-            
-            border-radius: $borderRadiusS;
-        }
-
+    .thumbnailImage {
+        display: block;
+        width: 100%;
+        height: auto;
+        
+        border-radius: $borderRadiusS;
     }
 
     .thumbnailButtons {
         position: absolute;
-        top: 6px;
-        right: 6px;
+        top: 0px;
+        right: 0px;
+        height: 100%;
+        padding: 10px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
+
 }
 
 .sidebarDivider {
     height: 1px;
     background-color: rgb(214, 214, 214);
+}
+
+
+.replaceSmallButton,
+.deleteFileSmallButton {
+    position: relative;
+    &:after {
+        content: "";
+        position: absolute;
+        right: 30px;
+        height: 26px;
+        width: auto;
+        padding: 0 10px;
+        border-radius: 5px;
+        background-color: $surface;
+        display: none;
+    }
+
+    &:hover {
+        &:after {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+        }
+    }
+}
+
+.replaceSmallButton {
+    &:after {
+        content: "Replace";
+    }
+}
+.deleteFileSmallButton {
+    &:after {
+        content: "Delete";
+    }
 }

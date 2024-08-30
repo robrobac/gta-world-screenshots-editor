@@ -3,13 +3,17 @@ import EditorUpload from '../editorUpload/EditorUpload';
 import EditorUploaded from '../editorUploaded/EditorUploaded';
 import './editorSidebar.scss';
 
-export default function EditorSidebar({setFeedbackFormVisible}) {
-  
+export default function EditorSidebar({setFeedbackFormVisible, uploadedFiles}) {
 
   return (
     <aside className='editorSidebarWrap'>
         <EditorUpload />
-        <EditorUploaded />
+        
+        <div className='editorUploadedSection'>
+            {uploadedFiles?.map((file) => (
+              <EditorUploaded key={file.id} file={file}/>
+            ))}
+        </div>
 
         {/* TODO */}
         <div style={{padding: "16px 16px 0 16px"}}>
