@@ -59,8 +59,8 @@ export const getChatFormats = (name) => {
         // [17:22:25] * Nedeljko Ljubic opens the back door and starts unloading crates.
         {
             name: "emote",
-            lineColor: "#B49FCA",
-            wordColor: "#B49FCA",
+            lineColor: "#C2A2DA",
+            wordColor: "#C2A2DA",
             triggerWords: [
                 /^(>|&gt)/, // starts with >
                 /^\*/, // starts with *

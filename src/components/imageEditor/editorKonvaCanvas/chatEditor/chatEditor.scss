@@ -140,8 +140,8 @@
             width: fit-content;
             @include quillFontStroke;
 
-            span[style*="color: transparent"] {
-                @include quillTransparentFontStroke;
+            span[style="color: transparent"] {
+                @include quillTransparentFontStroke; // text is sharper with this
             }
         }
 
